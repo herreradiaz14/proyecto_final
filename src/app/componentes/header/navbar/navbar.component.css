@@ -1,0 +1,11 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.panel-w-300 {
+  width: 300px;
+}
+
+.mat-icon-margin {
+  margin: 0 3px -5px 0;
+}
