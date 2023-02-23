@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import { Alumno } from "../../../models/alumno";
+import { Component, OnInit } from '@angular/core';
+import { Alumno } from "../../../shared/models/alumno";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from "@angular/material/dialog";
-import {AbmAlumnosComponent} from "../abm-alumnos/abm-alumnos.component";
+import { AbmAlumnosComponent } from "../abm-alumnos/abm-alumnos.component";
 
 @Component({
   selector: 'app-lista-alumnos',

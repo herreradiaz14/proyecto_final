@@ -46,3 +46,5 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
   ]
 })
 export class MaterialModule { }
+
+// https://klarsys.github.io/angular-material-icons/

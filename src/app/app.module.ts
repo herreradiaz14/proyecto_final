@@ -3,37 +3,32 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavbarComponent } from './componentes/header/navbar/navbar.component';
-import { ToolbarComponent } from './componentes/header/toolbar/toolbar.component';
-import { ListaAlumnosComponent } from './componentes/alumnos/lista-alumnos/lista-alumnos.component';
-import { AbmAlumnosComponent } from './componentes/alumnos/abm-alumnos/abm-alumnos.component';
-import { MaterialModule } from "./material.module";
-import { NombreApellidoPipe } from './pipes/nombre-apellido.pipe';
-import { BooleanTextoPipe } from './pipes/boolean-texto.pipe';
-import { DirectivaPrincipalDirective } from './directivas/directiva-principal.directive';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ListaClasesComponent } from './componentes/clases/lista-clases/lista-clases.component';
-import { AbmClasesComponent } from './componentes/clases/abm-clases/abm-clases.component';
+import { ListaClasesComponent } from './features/clases/lista-clases/lista-clases.component';
+import { AbmClasesComponent } from './features/clases/abm-clases/abm-clases.component';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
+import { AlumnosModule } from './features/alumnos/alumnos.module';
+import { CursosModule } from './features/cursos/cursos.module';
+import { ClasesModule } from './features/clases/clases.module';
+import { AppRountingModule } from './app-rounting.module';
+import { Pagina404Component } from './components/pagina404/pagina404.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    ToolbarComponent,
-    ListaAlumnosComponent,
-    AbmAlumnosComponent,
-    NombreApellidoPipe,
-    BooleanTextoPipe,
-    DirectivaPrincipalDirective,
     ListaClasesComponent,
-    AbmClasesComponent
+    AbmClasesComponent,
+    Pagina404Component
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    FormsModule
+    SharedModule,
+    CoreModule,
+    AlumnosModule,
+    CursosModule,
+    ClasesModule,
+    AppRountingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
