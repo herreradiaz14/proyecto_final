@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {ListaClasesComponent} from "./lista-clases/lista-clases.component";
+import { ListaInscripcionesComponent } from "./lista-inscripciones/lista-inscripciones.component";
 
 const routes: Routes = [
-  {path: 'clases', children: [
+  {path: 'inscripciones', children: [
       { path: '**', redirectTo: 'list', pathMatch: 'full' },
-      {path: 'list', component: ListaClasesComponent }]
+      {path: 'list', component: ListaInscripcionesComponent }]
   },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ClasesRoutingModule { }
+
+export class InscripcionesRoutingModule { }

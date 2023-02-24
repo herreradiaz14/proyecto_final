@@ -1,38 +1,81 @@
 <h1 mat-dialog-title>{{ action }}</h1>
 <div mat-dialog-content>
-  <form [formGroup]="formHerrera">
-    <div class="row">
-      <mat-form-field appearance="fill">
-        <mat-label>Nombre</mat-label>
-        <input type="text" name="nombre" formControlName="nombre" matInput [(ngModel)]="alumno.nombre"/>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['required']">El campo nombres es requerido</div>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['minlength']">El campo nombres debe tener mínimo {{ formHerrera.controls['nombre'].errors?.['minlength']['requiredLength'] }} caracteres</div>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['maxlength']">El campo nombres debe tener máximo {{ formHerrera.controls['nombre'].errors?.['maxlength']['requiredLength'] }} caracteres</div>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Apellido</mat-label>
-        <input type="text" name="apellido" formControlName="apellido" matInput [(ngModel)]="alumno.apellido"/>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['apellido'].dirty && formHerrera.controls['apellido'].errors?.['required']">El campo nombres es requerido</div>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['apellido'].dirty && formHerrera.controls['apellido'].errors?.['minlength']">El campo nombres debe tener mínimo {{ formHerrera.controls['apellido'].errors?.['minlength']['requiredLength'] }} caracteres</div>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['apellido'].dirty && formHerrera.controls['apellido'].errors?.['maxlength']">El campo nombres debe tener máximo {{ formHerrera.controls['apellido'].errors?.['maxlength']['requiredLength'] }} caracteres</div>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Edad</mat-label>
-        <input type="number" name="edad" formControlName="edad" matInput [(ngModel)]="alumno.edad"/>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['edad'].dirty && formHerrera.controls['edad'].errors?.['required']">El campo edad es requerido</div>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Correo</mat-label>
-        <input type="email" name="correo" formControlName="correo" matInput [(ngModel)]="alumno.correo"/>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['correo'].dirty && formHerrera.controls['correo'].errors?.['required']">El campo correo electrónico es requerido</div>
-        <div class="form-no-valid" *ngIf="formHerrera.controls['correo'].dirty && formHerrera.controls['correo'].errors?.['pattern']">El campo correo electrónico no cumple con un formato correcto</div>
-      </mat-form-field>
-        <mat-label>Matriculado</mat-label>
-        <mat-checkbox name="estaMatriculado"  id="estaMatriculado" formControlName="estaMatriculado" [(ngModel)]="alumno.estaMatriculado">SI</mat-checkbox>
-    </div>
-  </form>
+  <mat-tab-group>
+    <mat-tab label="Alumno" *ngIf="!isDetail">
+      <form [formGroup]="formHerrera" >
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input type="text" name="nombre" formControlName="nombre" matInput [(ngModel)]="alumno.nombre"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['required']">El campo nombres es requerido</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['minlength']">El campo nombres debe tener mínimo {{ formHerrera.controls['nombre'].errors?.['minlength']['requiredLength'] }} caracteres</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['maxlength']">El campo nombres debe tener máximo {{ formHerrera.controls['nombre'].errors?.['maxlength']['requiredLength'] }} caracteres</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Apellido</mat-label>
+            <input type="text" name="apellido" formControlName="apellido" matInput [(ngModel)]="alumno.apellido"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['apellido'].dirty && formHerrera.controls['apellido'].errors?.['required']">El campo nombres es requerido</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['apellido'].dirty && formHerrera.controls['apellido'].errors?.['minlength']">El campo nombres debe tener mínimo {{ formHerrera.controls['apellido'].errors?.['minlength']['requiredLength'] }} caracteres</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['apellido'].dirty && formHerrera.controls['apellido'].errors?.['maxlength']">El campo nombres debe tener máximo {{ formHerrera.controls['apellido'].errors?.['maxlength']['requiredLength'] }} caracteres</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Edad</mat-label>
+            <input type="number" name="edad" formControlName="edad" matInput [(ngModel)]="alumno.edad"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['edad'].dirty && formHerrera.controls['edad'].errors?.['required']">El campo edad es requerido</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Correo</mat-label>
+            <input type="email" name="correo" formControlName="correo" matInput [(ngModel)]="alumno.correo"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['correo'].dirty && formHerrera.controls['correo'].errors?.['required']">El campo correo electrónico es requerido</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['correo'].dirty && formHerrera.controls['correo'].errors?.['pattern']">El campo correo electrónico no cumple con un formato correcto</div>
+          </mat-form-field>
+          <mat-label>Matriculado</mat-label>
+          <mat-checkbox name="estaMatriculado"  id="estaMatriculado" formControlName="estaMatriculado" [(ngModel)]="alumno.estaMatriculado">SI</mat-checkbox>
+        </div>
+      </form>
+    </mat-tab>
+    <mat-tab label="Cursos" *ngIf="isDetail">
+
+      <div class="container">
+        <div class="row">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ alumno.nombre | nombreApellido:alumno.apellido }}</mat-card-title>
+              <mat-card-subtitle>Edad: {{ alumno.edad }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ alumno.correo }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <hr>
+        <div class="row" *ngIf="alumno.inscripciones && alumno.inscripciones.length > 0">
+          <div class="col" *ngFor="let curso of alumno.inscripciones">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>{{ curso.curso.nombre }}</mat-card-title>
+                <mat-card-subtitle>{{ curso.curso.profesor }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>Fecha de inscripciónr {{ curso.fecha }}</p>
+              </mat-card-content>
+              <mat-card-actions align="end">
+                <button mat-raised-button color="warn" *ngIf="isDetail">
+                  <mat-checkbox   id="{{ curso.id }}" name="{{ curso.id }}"  [(ngModel)]="curso.isActive">Inscrito</mat-checkbox>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="row" *ngIf="alumno.inscripciones && alumno.inscripciones.length === 0">
+          No tiene inscripciones
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>
 <div mat-dialog-actions>
-  <button mat-flat-button (click)="guardar()">Guardar</button>
+  <button mat-flat-button (click)="inactivar()" *ngIf="isDetail">Inactivar</button>
+  <button mat-flat-button (click)="guardar()"  *ngIf="!isDetail">Guardar</button>
   <button mat-button (click)="closeModal()">Cerrar</button>
 </div>

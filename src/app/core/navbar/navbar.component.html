@@ -1,7 +1,12 @@
 <div class="d-flex flex-column panel-w-300">
   <hr>
   <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
+    <li>
+      <a routerLink="inicio" class="nav-link" routerLinkActive="active"  aria-current="page">
+        <mat-icon class="mat-icon-margin">home</mat-icon> <span>Inicio</span>
+      </a>
+    </li>
+    <li>
       <a routerLink="alumnos" class="nav-link" routerLinkActive="active"  aria-current="page">
         <mat-icon class="mat-icon-margin">perm_contact_calendar</mat-icon> <span>Administración de alumnos</span>
       </a>
@@ -12,8 +17,8 @@
       </a>
     </li>
     <li>
-      <a routerLink="clases" class="nav-link" routerLinkActive="active" aria-current="page">
-        <mat-icon class="mat-icon-margin">touch_app</mat-icon> <span>Administración de clases</span>
+      <a routerLink="inscripciones" class="nav-link" routerLinkActive="active" aria-current="page">
+        <mat-icon class="mat-icon-margin">touch_app</mat-icon> <span>Administración de inscripciones</span>
       </a>
     </li>
   </ul>

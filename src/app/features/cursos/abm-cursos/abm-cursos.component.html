@@ -1,1 +1,78 @@
-<p>abm-cursos works!</p>
+<h1 mat-dialog-title>{{ action }}</h1>
+<div mat-dialog-content>
+  <mat-tab-group>
+    <mat-tab label="Curso" *ngIf="!isDetail">
+      <form [formGroup]="formHerrera" >
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input type="text" name="nombre" formControlName="nombre" matInput [(ngModel)]="curso.nombre"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['required']">El campo nombres es requerido</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['minlength']">El campo nombres debe tener mínimo {{ formHerrera.controls['nombre'].errors?.['minlength']['requiredLength'] }} caracteres</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['nombre'].dirty && formHerrera.controls['nombre'].errors?.['maxlength']">El campo nombres debe tener máximo {{ formHerrera.controls['nombre'].errors?.['maxlength']['requiredLength'] }} caracteres</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Profesor</mat-label>
+            <input type="text" name="profesor" formControlName="profesor" matInput [(ngModel)]="curso.profesor"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['profesor'].dirty && formHerrera.controls['profesor'].errors?.['required']">El campo nombres es requerido</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['profesor'].dirty && formHerrera.controls['profesor'].errors?.['minlength']">El campo nombres debe tener mínimo {{ formHerrera.controls['profesor'].errors?.['minlength']['requiredLength'] }} caracteres</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['profesor'].dirty && formHerrera.controls['profesor'].errors?.['maxlength']">El campo nombres debe tener máximo {{ formHerrera.controls['profesor'].errors?.['maxlength']['requiredLength'] }} caracteres</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Duración</mat-label>
+            <input type="number" name="duracionHoras" formControlName="duracionHoras" matInput [(ngModel)]="curso.duracionHoras"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['duracionHoras'].dirty && formHerrera.controls['duracionHoras'].errors?.['required']">El campo duración es requerido</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Correo</mat-label>
+            <input type="text" name="fechaInicio" formControlName="fechaInicio" matInput [(ngModel)]="curso.fechaInicio"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['fechaInicio'].dirty && formHerrera.controls['fechaInicio'].errors?.['required']">El campo fecha de inicio es requerido</div>
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-tab>
+    <mat-tab label="Cursos" *ngIf="isDetail">
+
+      <div class="container">
+        <div class="row">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ curso.nombre}}</mat-card-title>
+              <mat-card-subtitle>Profesor: {{ curso.profesor }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ curso.fechaInicio }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <hr>
+        <div class="row" *ngIf="curso.alumnos && curso.alumnos.length > 0">
+          <div class="col" *ngFor="let alumno of curso.alumnos">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>{{ alumno.nombre | nombreApellido:alumno.apellido }}</mat-card-title>
+                <mat-card-subtitle>{{ alumno.edad }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>Correo: {{ alumno.correo }}</p>
+              </mat-card-content>
+              <mat-card-actions align="end">
+                <button mat-raised-button color="warn" *ngIf="isDetail">
+                  <mat-checkbox   id="{{ alumno.id }}" name="{{ alumno.id }}"  [(ngModel)]="alumno.isActive">Inscrito</mat-checkbox>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="row" *ngIf="curso.alumnos && curso.alumnos.length === 0">
+          No tiene alumnos inscritos
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="inactivar()" *ngIf="isDetail">Inactivar</button>
+  <button mat-flat-button (click)="guardar()"  *ngIf="!isDetail">Guardar</button>
+  <button mat-button (click)="closeModal()">Cerrar</button>
+</div>

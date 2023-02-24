@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CoreRoutingModule } from './core-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { MaterialModule } from "../material.module";
+import { MaterialModule } from "./material.module";
 
 @NgModule({
   declarations: [

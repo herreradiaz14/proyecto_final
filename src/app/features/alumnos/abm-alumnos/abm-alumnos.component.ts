@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Alumno} from "../../../shared/models/alumno";
+import {Inscripcion} from "../../../shared/models/inscripcion";
 
 @Component({
   selector: 'app-abm-alumnos',
@@ -14,21 +15,29 @@ export class AbmAlumnosComponent {
   formValid: boolean = false;
   action: string = 'Nuevo';
   alumno!: Alumno;
+  isDetail: Boolean = false;
   constructor(private dialogRef: MatDialogRef<AbmAlumnosComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log(data.alumno);
     this.action = data['title'];
+    this.isDetail = data['isDetail'];
+    let inscripciones = [];
+    if(data.alumno.inscripciones && data.alumno.inscripciones.length >0){
+      inscripciones = JSON.parse(JSON.stringify(data.alumno.inscripciones));
+    }
     this.alumno = {
       id: data.alumno.id,
       nombre: data.alumno.nombre,
       apellido: data.alumno.apellido,
       edad: data.alumno.edad,
       correo:data.alumno.correo,
-      estaMatriculado: data.alumno.estaMatriculado
+      estaMatriculado: data.alumno.estaMatriculado,
+      inscripciones: inscripciones
     };
     const formato = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     let elementos: any = {
-      nombre: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]),
-      apellido: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]),
+      nombre: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+      apellido: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       edad: new FormControl('', [Validators.required]),
       correo: new FormControl('', [Validators.required, Validators.pattern(formato)]),
       estaMatriculado: new FormControl()
@@ -47,5 +56,12 @@ export class AbmAlumnosComponent {
       return;
     }
     this.dialogRef.close({event: 'add', data: this.alumno});
+  }
+
+  inactivar(){
+    console.log(this.alumno.inscripciones);
+    const activos = this.alumno.inscripciones?.filter(ele => ele.isActive);
+
+    this.dialogRef.close({event: 'inactive', data: {id: this.alumno.id, activos: activos}});
   }
 }
