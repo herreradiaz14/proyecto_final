@@ -1,6 +1,11 @@
+<div class="row">
+<div class="col-md-4">
+  <app-navbar></app-navbar>
+</div>
+<div class="col-md-8">
 <h1 appDirectivaPrincipal>Listar alumnos</h1>
 <div class="example-flex-container">
-  <button mat-raised-button color="accent" (click)="agregarAlumno()">Agregar alumno</button>
+  <button mat-raised-button color="accent" (click)="agregarAlumno()" *ngIf="userLoggued && userLoggued.isAdmin">Agregar alumno</button>
 </div>
 <table mat-table [dataSource]="dataSource">
   <ng-container matColumnDef="nombre">
@@ -25,10 +30,10 @@
       <button mat-icon-button color="inf" (click)="verDeatalleAlumno(element)" title="Ver detalles">
         <mat-icon>view_list</mat-icon>
       </button>
-      <button mat-icon-button color="primary" (click)="editarAlumno(element)" title="Editar">
+      <button mat-icon-button color="primary" (click)="editarAlumno(element)" *ngIf="userLoggued && userLoggued.isAdmin" title="Editar">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="eliminarAlumno(element)" title="Eliminar">
+      <button mat-icon-button color="warn" (click)="eliminarAlumno(element)" *ngIf="userLoggued && userLoggued.isAdmin" title="Eliminar">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </td>
@@ -37,3 +42,5 @@
   <tr mat-header-row *matHeaderRowDef="columnas"></tr>
   <tr mat-row *matRowDef="let row; columns: columnas"></tr>
 </table>
+</div>
+</div>

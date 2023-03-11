@@ -1,0 +1,35 @@
+<div class="col-lg-12">
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Iniciar sesión</mat-card-title>
+    </mat-card-header>
+  <form [formGroup]="authForm"  class="example-form place" (ngSubmit)="signIn()" style="place-self: center; width: 60%;">
+    <mat-card-content>
+    <table class="w-100" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="w-100">
+          <input matInput placeholder="Usuario" type="text" [(ngModel)]="username" formControlName="username" required>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+      <td><mat-form-field class="w-100">
+        <input matInput placeholder="Contraseña" type="password" [(ngModel)]="password" formControlName="password" required>
+      </mat-form-field></td>
+      </tr>
+      <tr>
+        <td>
+          <mat-label>Es administrador</mat-label>
+          <mat-checkbox formControlName="isAdmin" [(ngModel)]="isAdmin">SI</mat-checkbox>
+        </td>
+      </tr>
+    </table>
+
+</mat-card-content>
+<mat-card-actions>
+  <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+</mat-card-actions>
+</form>
+</mat-card>
+</div>

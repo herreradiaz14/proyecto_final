@@ -1,0 +1,12 @@
+.flexExpand {
+  flex: 1 1 auto;
+}
+
+.user-login-info {
+  margin-left: 20%;
+  margin-top: -10px;
+}
+
+.username-info {
+  margin: 0 10px;
+}

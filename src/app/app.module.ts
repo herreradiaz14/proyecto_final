@@ -13,6 +13,10 @@ import { InscripcionesModule } from './features/inscripciones/inscripciones.modu
 import { AbmInscripcionesComponent } from './features/inscripciones/abm-inscripciones/abm-inscripciones.component';
 import { ListaInscripcionesComponent } from './features/inscripciones/lista-inscripciones/lista-inscripciones.component';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { AuthComponent } from './components/auth/auth.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -20,17 +24,23 @@ import { InicioComponent } from './components/inicio/inicio.component';
     Pagina404Component,
     AbmInscripcionesComponent,
     ListaInscripcionesComponent,
-    InicioComponent
+    InicioComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
     CoreModule,
+    AppRountingModule,
     AlumnosModule,
     CursosModule,
     InscripcionesModule,
-    AppRountingModule
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    MenuComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

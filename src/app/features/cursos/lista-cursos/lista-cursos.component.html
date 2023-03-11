@@ -1,4 +1,9 @@
-<h1 appDirectivaPrincipal>Listar Cursos</h1>
+<div class="row">
+  <div class="col-md-4">
+    <app-navbar></app-navbar>
+  </div>
+<div class="col-md-8">
+  <h1 appDirectivaPrincipal>Listar Cursos</h1>
 <div class="example-flex-container">
   <button mat-raised-button color="accent" (click)="agregarCurso()">Agregar Curso</button>
 </div>
@@ -37,3 +42,5 @@
   <tr mat-header-row *matHeaderRowDef="columnas"></tr>
   <tr mat-row *matRowDef="let row; columns: columnas"></tr>
 </table>
+</div>
+</div>

@@ -5,6 +5,7 @@ import { AbmAlumnosComponent } from './abm-alumnos/abm-alumnos.component';
 import { AlumnosRoutingModule } from './alumnos-routing.module';
 import { CoreModule } from "../../core/core.module";
 import { SharedModule } from "../../shared/shared.module";
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { SharedModule } from "../../shared/shared.module";
     CommonModule,
     AlumnosRoutingModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
   exports: [
     ListaAlumnosComponent

@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardGuard } from 'src/app/components/security/auth.guard.guard';
 import { ListaAlumnosComponent } from "./lista-alumnos/lista-alumnos.component";
 
 const routes: Routes = [
-  {path: 'alumnos', children: [
-      { path: '**', redirectTo: 'list', pathMatch: 'full' },
-      {path: 'list', component: ListaAlumnosComponent }]
+  {path: '', canActivateChild: [AuthGuardGuard], children: [ 
+      {path: 'list', component: ListaAlumnosComponent },
+      { path:'**', redirectTo: 'list'},
+      ]
   },
 ];
 

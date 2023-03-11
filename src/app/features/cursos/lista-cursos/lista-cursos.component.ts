@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from "@angular/material/dialog";
 import { AbmCursosComponent } from "../abm-cursos/abm-cursos.component";
 import {Inscripcion} from "../../../shared/models/inscripcion";
+import { CursoService } from 'src/app/services/cursos.service.service';
 @Component({
   selector: 'app-lista-cursos',
   templateUrl: './lista-cursos.component.html',
@@ -14,12 +15,15 @@ export class ListaCursosComponent implements OnInit{
   dataSource: MatTableDataSource<Curso> = new MatTableDataSource<Curso>([]);
   columnas: string[] = ['nombre', 'profesor', 'duracionHoras', 'fechaInicio', 'acciones'];
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private cursoService: CursoService) {
   }
 
   ngOnInit() {
-    this.cursos = this.listData();
-    this.dataSource = new MatTableDataSource<Curso>(this.cursos);
+    //this.cursos = this.listData();
+    this.cursoService.obtenerCursos().subscribe(data=> {
+      this.cursos = data;
+      this.dataSource = new MatTableDataSource<Curso>(this.cursos);
+    });
   }
 
   listData(): Curso[] {
@@ -66,23 +70,29 @@ export class ListaCursosComponent implements OnInit{
     if(curso.id){
       const findCurso = this.cursos.find(element=>element.id===curso.id)
       if(findCurso){
-        findCurso.nombre = curso.nombre;
-        findCurso.profesor = curso.profesor;
-        findCurso.duracionHoras = curso.duracionHoras;
-        findCurso.fechaInicio = curso.fechaInicio;
+        this.cursoService.editarCurso(curso).subscribe(data=> {
+          findCurso.nombre = curso.nombre;
+          findCurso.profesor = curso.profesor;
+          findCurso.duracionHoras = curso.duracionHoras;
+          findCurso.fechaInicio = curso.fechaInicio;
+          this.dataSource = new MatTableDataSource<Curso>(this.cursos);
+        });
       }
     }else{
-      this.cursos.push(curso)
+      this.cursoService.agregarCurso(curso).subscribe(data=> {
+        this.cursos.push(data);
+        this.dataSource = new MatTableDataSource<Curso>(this.cursos);
+      });
     }
-
-    this.dataSource = new MatTableDataSource<Curso>(this.cursos);
   }
 
   eliminarCurso(curso: Curso){
-    const findCurso = this.cursos.findIndex(element=>element.id===curso.id)
-    this.cursos.splice(findCurso, 1);
-    this.dataSource = new MatTableDataSource<Curso>(this.cursos);
-    alert("El curso ha sido eliminado");
+    this.cursoService.eliminarCurso(curso).subscribe(data=> {
+      const findCurso = this.cursos.findIndex(element=>element.id===curso.id)
+      this.cursos.splice(findCurso, 1);
+      this.dataSource = new MatTableDataSource<Curso>(this.cursos);
+      alert("El curso ha sido eliminado");
+    });
   }
 
 

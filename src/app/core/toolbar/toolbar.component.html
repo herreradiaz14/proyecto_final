@@ -3,10 +3,6 @@
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menuPrincipal="matMenu">
-    <button mat-menu-item routerLink="inicio">
-      <mat-icon>home</mat-icon>
-      <span>Inicio</span>
-    </button>
     <button mat-menu-item routerLink="alumnos">
       <mat-icon>perm_contact_calendar</mat-icon>
       <span>Administración de alumnos</span>
@@ -19,8 +15,19 @@
       <mat-icon>touch_app</mat-icon>
       <span>Administración de inscripciones</span>
     </button>
+    <button mat-menu-item (click)="cerrarSesion()">
+      <mat-icon>logout</mat-icon>
+      <span>Cerrar sesión</span>
+    </button>
   </mat-menu>
   <span>Sistema de información académica</span>
   <span class="example-spacer"></span>
+  <span class="flexExpand"></span>
+  <div class="user-login-info" *ngIf="userLoggued">
+    Bienvenido/a: <span class="username-info">{{ userLoggued.username }}</span>
+    <button title="Cerrar sesión" mat-icon-button class="example-icon favorite-icon" aria-label="Cerrar sesión" (click)="cerrarSesion()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
 

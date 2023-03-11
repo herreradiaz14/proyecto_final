@@ -4,6 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from "@angular/material/dialog";
 import { AbmAlumnosComponent } from "../abm-alumnos/abm-alumnos.component";
 import {Inscripcion} from "../../../shared/models/inscripcion";
+import { AlumnoService } from 'src/app/services/alumnos.service.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/components/auth/models/user';
 
 @Component({
   selector: 'app-lista-alumnos',
@@ -14,13 +17,20 @@ export class ListaAlumnosComponent implements OnInit{
   alumnos: Alumno[] = [];
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource<Alumno>([]);
   columnas: string[] = ['nombre', 'edad', 'correo', 'estaMatriculado', 'acciones'];
-
-  constructor(private dialog: MatDialog) {
+  userLoggued?: User;
+  constructor(private dialog: MatDialog, private alumnoService: AlumnoService,private authService: AuthService) {
   }
 
   ngOnInit() {
-    this.alumnos = this.listData();
-    this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
+    if (this.authService.isLoggedIn()){
+      this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
+      console.log(this.userLoggued);
+    }
+    //this.alumnos = this.listData();
+    this.alumnoService.obtenerAlumnos().subscribe(data=> {
+      this.alumnos = data;
+      this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
+    });
   }
 
   listData(): Alumno[] {
@@ -66,24 +76,33 @@ export class ListaAlumnosComponent implements OnInit{
     if(alumno.id){
       const findAlumno = this.alumnos.find(element=>element.id===alumno.id)
       if(findAlumno){
-        findAlumno.nombre = alumno.nombre;
-        findAlumno.apellido = alumno.apellido;
-        findAlumno.edad = alumno.edad;
-        findAlumno.correo = alumno.correo;
-        findAlumno.estaMatriculado = alumno.estaMatriculado;
+        this.alumnoService.editarAlumno(alumno).subscribe(data=> {
+          findAlumno.nombre = alumno.nombre;
+          findAlumno.apellido = alumno.apellido;
+          findAlumno.edad = alumno.edad;
+          findAlumno.correo = alumno.correo;
+          findAlumno.estaMatriculado = alumno.estaMatriculado;
+
+          this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
+        });
       }
     }else{
-      this.alumnos.push(alumno)
+      this.alumnoService.agregarAlumno(alumno).subscribe(data=> {
+        this.alumnos.push(data);
+        this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
+      });
+
     }
 
-    this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
   }
 
   eliminarAlumno(alumno: Alumno){
-    const findAlumno = this.alumnos.findIndex(element=>element.id===alumno.id)
-    this.alumnos.splice(findAlumno, 1);
-    this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
-    alert("El alumno ha sido eliminado");
+    this.alumnoService.eliminarAlumno(alumno).subscribe(data=> {
+      const findAlumno = this.alumnos.findIndex(element=>element.id===alumno.id)
+      this.alumnos.splice(findAlumno, 1);
+      this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
+      alert("El alumno ha sido eliminado");
+    });
   }
 
 

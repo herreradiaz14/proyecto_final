@@ -6,21 +6,26 @@ import { ListaCursosComponent } from "./lista-cursos/lista-cursos.component";
 import { AbmCursosComponent } from "./abm-cursos/abm-cursos.component";
 import { CoreModule } from "../../core/core.module";
 import { SharedModule } from "../../shared/shared.module";
+import { MenuComponent } from 'src/app/components/menu/menu.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
     ListaCursosComponent,
-    AbmCursosComponent
+    AbmCursosComponent,
+    MenuComponent
   ],
   imports: [
     CommonModule,
     CursosRoutingModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
   exports: [
-    ListaCursosComponent
+    ListaCursosComponent,
+    MenuComponent
   ]
 })
 export class CursosModule { }

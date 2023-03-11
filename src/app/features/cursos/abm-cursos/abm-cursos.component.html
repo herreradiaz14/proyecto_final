@@ -24,7 +24,7 @@
             <div class="form-no-valid" *ngIf="formHerrera.controls['duracionHoras'].dirty && formHerrera.controls['duracionHoras'].errors?.['required']">El campo duración es requerido</div>
           </mat-form-field>
           <mat-form-field appearance="fill">
-            <mat-label>Correo</mat-label>
+            <mat-label>Fecha Inicio</mat-label>
             <input type="text" name="fechaInicio" formControlName="fechaInicio" matInput [(ngModel)]="curso.fechaInicio"/>
             <div class="form-no-valid" *ngIf="formHerrera.controls['fechaInicio'].dirty && formHerrera.controls['fechaInicio'].errors?.['required']">El campo fecha de inicio es requerido</div>
           </mat-form-field>
