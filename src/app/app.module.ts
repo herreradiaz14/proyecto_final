@@ -22,8 +22,8 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
   declarations: [
     AppComponent,
     Pagina404Component,
-    AbmInscripcionesComponent,
-    ListaInscripcionesComponent,
+    // AbmInscripcionesComponent,
+    // ListaInscripcionesComponent,
     InicioComponent,
     AuthComponent
   ],

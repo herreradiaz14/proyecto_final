@@ -18,6 +18,15 @@ describe('ListaCursosComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(ListaCursosComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it('should render title in a h1 tag', () => {
+    const fixture = TestBed.createComponent(ListaCursosComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-unit-test!');
   });
 });

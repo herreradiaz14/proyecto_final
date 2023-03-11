@@ -18,13 +18,13 @@ export class ListaAlumnosComponent implements OnInit{
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource<Alumno>([]);
   columnas: string[] = ['nombre', 'edad', 'correo', 'estaMatriculado', 'acciones'];
   userLoggued?: User;
-  constructor(private dialog: MatDialog, private alumnoService: AlumnoService,private authService: AuthService) {
+
+  constructor(private dialog: MatDialog, private alumnoService: AlumnoService, private authService: AuthService) {
   }
 
   ngOnInit() {
     if (this.authService.isLoggedIn()){
       this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
-      console.log(this.userLoggued);
     }
     //this.alumnos = this.listData();
     this.alumnoService.obtenerAlumnos().subscribe(data=> {
@@ -53,7 +53,6 @@ export class ListaAlumnosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if ( result.event !== 'close')
         this.guardarAlumno(result.data);
     });
@@ -65,7 +64,6 @@ export class ListaAlumnosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if ( result.event !== 'close')
         this.guardarAlumno(result.data);
     });
@@ -112,15 +110,12 @@ export class ListaAlumnosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if ( result.event !== 'close')
         this.quitarIncripcion(result.data);
     });
   }
 
   quitarIncripcion(alumno: any){
-    console.log(alumno)
-    console.log('remove')
     const findAlumno = this.alumnos.find(element=>element.id===alumno.id);
     if(findAlumno){
       findAlumno.inscripciones = alumno.activos;

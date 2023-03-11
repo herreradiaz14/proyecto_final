@@ -22,7 +22,7 @@
   </ng-container>
   <ng-container matColumnDef="fechaInicio">
     <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Inicio</th>
-    <td mat-cell *matCellDef="let element">{{ element.fechaInicio }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.fechaInicio | date }}</td>
   </ng-container>
   <ng-container matColumnDef="acciones">
     <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Acciones</th>
@@ -30,10 +30,10 @@
       <button mat-icon-button color="inf" (click)="verDeatalleCurso(element)" title="Ver detalles">
         <mat-icon>view_list</mat-icon>
       </button>
-      <button mat-icon-button color="primary" (click)="editarCurso(element)" title="Editar">
+      <button mat-icon-button color="primary" (click)="editarCurso(element)" *ngIf="userLoggued && userLoggued.isAdmin" title="Editar">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="eliminarCurso(element)" title="Eliminar">
+      <button mat-icon-button color="warn" (click)="eliminarCurso(element)" *ngIf="userLoggued && userLoggued.isAdmin" title="Eliminar">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </td>

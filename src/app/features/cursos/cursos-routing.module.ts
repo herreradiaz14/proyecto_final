@@ -5,7 +5,7 @@ import {ListaCursosComponent} from "./lista-cursos/lista-cursos.component";
 
 const routes: Routes = [
   {path: '', canActivateChild: [AuthGuardGuard], children: [
-      {path: 'list', component: ListaCursosComponent },
+      { path: 'list', component: ListaCursosComponent },
       { path:'**', redirectTo: 'list'},
     ]
   },

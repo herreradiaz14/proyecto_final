@@ -3,8 +3,9 @@ import { Curso } from "../../../shared/models/curso";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from "@angular/material/dialog";
 import { AbmCursosComponent } from "../abm-cursos/abm-cursos.component";
-import {Inscripcion} from "../../../shared/models/inscripcion";
 import { CursoService } from 'src/app/services/cursos.service.service';
+import { User } from "../../../components/auth/models/user";
+import { AuthService } from "../../../services/auth.service";
 @Component({
   selector: 'app-lista-cursos',
   templateUrl: './lista-cursos.component.html',
@@ -14,11 +15,17 @@ export class ListaCursosComponent implements OnInit{
   cursos: Curso[] = [];
   dataSource: MatTableDataSource<Curso> = new MatTableDataSource<Curso>([]);
   columnas: string[] = ['nombre', 'profesor', 'duracionHoras', 'fechaInicio', 'acciones'];
+  userLoggued?: User;
 
-  constructor(private dialog: MatDialog, private cursoService: CursoService) {
+  constructor(private dialog: MatDialog, private cursoService: CursoService, private authService: AuthService) {
   }
 
   ngOnInit() {
+    if (this.authService.isLoggedIn()){
+      this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
+      console.log(this.userLoggued);
+    }
+
     //this.cursos = this.listData();
     this.cursoService.obtenerCursos().subscribe(data=> {
       this.cursos = data;
@@ -47,7 +54,6 @@ export class ListaCursosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if ( result.event !== 'close')
         this.guardarCurso(result.data);
     });
@@ -59,7 +65,6 @@ export class ListaCursosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if ( result.event !== 'close')
         this.guardarCurso(result.data);
     });
@@ -102,15 +107,12 @@ export class ListaCursosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if ( result.event !== 'close')
         this.quitarIncripcion(result.data);
     });
   }
 
   quitarIncripcion(curso: any){
-    console.log(curso)
-    console.log('remove')
     const findCurso = this.cursos.find(element=>element.id===curso.id);
     if(findCurso){
       findCurso.alumnos = curso.activos;

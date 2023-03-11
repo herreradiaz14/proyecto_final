@@ -15,6 +15,9 @@ const routes: Routes = [
   { path: 'cursos',
     loadChildren: () => import('./features/cursos/cursos.module').then((modulo) => modulo.CursosModule),
     canLoad: [AuthGuardGuard] },
+  { path: 'inscripciones',
+    loadChildren: () => import('./features/inscripciones/inscripciones.module').then((modulo) => modulo.InscripcionesModule),
+    canLoad: [AuthGuardGuard] },
   {path: '**', component: Pagina404Component}
 ];
 

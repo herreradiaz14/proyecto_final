@@ -1,1 +1,43 @@
-<p>lista-inscripciones works!</p>
+<div class="row">
+  <div class="col-md-4">
+    <app-navbar></app-navbar>
+  </div>
+  <div class="col-md-8">
+    <h1 appDirectivaPrincipal>Listar inscripciones</h1>
+<!--    <div class="example-flex-container">-->
+<!--      <button mat-raised-button color="accent" (click)="agregarInscripcion()">Agregar inscripción</button>-->
+<!--    </div>-->
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Fecha</th>
+        <td mat-cell *matCellDef="let element">{{ element.fecha | date }}</td>
+      </ng-container>
+      <ng-container matColumnDef="pago">
+        <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Pago</th>
+        <td mat-cell *matCellDef="let element">{{ element.pago }}</td>
+      </ng-container>
+      <ng-container matColumnDef="curso">
+        <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Cursos</th>
+        <td mat-cell *matCellDef="let element">{{ element.curso | json }}</td>
+      </ng-container>
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Activo</th>
+        <td mat-cell *matCellDef="let element">{{ element.isActive | booleanTexto }}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="editarInscripcion(element)" *ngIf="userLoggued && userLoggued.isAdmin" title="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminarInscripcion(element)" *ngIf="userLoggued && userLoggued.isAdmin" title="Eliminar">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+    </table>
+  </div>
+</div>
