@@ -6,6 +6,7 @@ import { Inscripcion } from "../../../shared/models/inscripcion";
 import { AbmInscripcionesComponent } from "../abm-inscripciones/abm-inscripciones.component";
 import { User } from "../../../components/auth/models/user";
 import {AuthService} from "../../../services/auth.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-lista-inscripciones',
@@ -18,13 +19,15 @@ export class ListaInscripcionesComponent implements OnInit{
   columnas: string[] = ['fecha', 'pago', 'curso', 'isActive', 'acciones'];
   userLoggued?: User;
 
-  constructor(private dialog: MatDialog, private inscripcionService: InscripcionesService, private authService: AuthService) {
+  constructor(
+    private dialog: MatDialog, private inscripcionService: InscripcionesService,
+    private authService: AuthService, private snackBar: MatSnackBar
+  ) {
   }
 
   ngOnInit() {
     if (this.authService.isLoggedIn()){
       this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
-      console.log(this.userLoggued);
     }
 
     this.inscripcionService.obtenerInscripciones().subscribe(data=> {
@@ -81,7 +84,9 @@ export class ListaInscripcionesComponent implements OnInit{
       const findInscripcion = this.inscripciones.findIndex(element=>element.id===inscripcion.id)
       this.inscripciones.splice(findInscripcion, 1);
       this.dataSource = new MatTableDataSource<Inscripcion>(this.inscripciones);
-      alert("La inscripción ha sido eliminada");
+      this.snackBar.open(`La inscripción ha sido eliminada`, `Aceptar`, {
+        duration: 4000, verticalPosition: 'top'
+      });
     });
   }
 }

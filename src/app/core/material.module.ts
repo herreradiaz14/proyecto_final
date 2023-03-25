@@ -12,6 +12,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTabsModule } from "@angular/material/tabs";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 
@@ -30,7 +31,8 @@ import { MatTabsModule } from "@angular/material/tabs";
     MatInputModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSnackBarModule
   ],
   exports: [
     MatToolbarModule,
@@ -45,7 +47,8 @@ import { MatTabsModule } from "@angular/material/tabs";
     MatInputModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule { }

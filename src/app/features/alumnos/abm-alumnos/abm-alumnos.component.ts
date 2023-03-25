@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Alumno} from "../../../shared/models/alumno";
 import {Inscripcion} from "../../../shared/models/inscripcion";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-abm-alumnos',
@@ -16,9 +17,10 @@ export class AbmAlumnosComponent {
   action: string = 'Nuevo';
   alumno!: Alumno;
   isDetail: Boolean = false;
-  constructor(private dialogRef: MatDialogRef<AbmAlumnosComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data.alumno);
+  constructor(
+    private dialogRef: MatDialogRef<AbmAlumnosComponent>, private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.action = data['title'];
     this.isDetail = data['isDetail'];
     let inscripciones = [];
@@ -52,14 +54,15 @@ export class AbmAlumnosComponent {
 
   guardar(){
     if (!this.formHerrera.valid){
-      alert("Debe completar los campos requeridos");
+      this.snackBar.open(`Debe completar los campos requeridos`, `Aceptar`, {
+        duration: 4000, verticalPosition: 'top'
+      });
       return;
     }
     this.dialogRef.close({event: 'add', data: this.alumno});
   }
 
   inactivar(){
-    console.log(this.alumno.inscripciones);
     const activos = this.alumno.inscripciones?.filter(ele => ele.isActive);
 
     this.dialogRef.close({event: 'inactive', data: {id: this.alumno.id, activos: activos}});

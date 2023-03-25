@@ -6,6 +6,7 @@ import { AbmCursosComponent } from "../abm-cursos/abm-cursos.component";
 import { CursoService } from 'src/app/services/cursos.service.service';
 import { User } from "../../../components/auth/models/user";
 import { AuthService } from "../../../services/auth.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-lista-cursos',
   templateUrl: './lista-cursos.component.html',
@@ -17,13 +18,15 @@ export class ListaCursosComponent implements OnInit{
   columnas: string[] = ['nombre', 'profesor', 'duracionHoras', 'fechaInicio', 'acciones'];
   userLoggued?: User;
 
-  constructor(private dialog: MatDialog, private cursoService: CursoService, private authService: AuthService) {
+  constructor(
+    private dialog: MatDialog, private cursoService: CursoService,
+    private authService: AuthService, private snackBar: MatSnackBar
+  ) {
   }
 
   ngOnInit() {
     if (this.authService.isLoggedIn()){
       this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
-      console.log(this.userLoggued);
     }
 
     //this.cursos = this.listData();
@@ -35,16 +38,16 @@ export class ListaCursosComponent implements OnInit{
 
   listData(): Curso[] {
     return [
-       {id: 1, nombre: 'Angular', profesor: 'Lisseth Cun', duracionHoras: 50, fechaInicio: new Date(), alumnos:[
-          {id: 1, nombre: 'Carlos', apellido: 'Herrera', edad: 29,
+       {id: "1", nombre: 'Angular', profesor: 'Lisseth Cun', duracionHoras: 50, fechaInicio: new Date(), alumnos:[
+          {id: "1", nombre: 'Carlos', apellido: 'Herrera', edad: 29,
             correo: 'herreradiaz14@gmail.com', estaMatriculado: true, isActive: true },
-           {id: 2, nombre: 'Jennifer', apellido: 'Honores', edad: 30, correo: 'jennifer.honores@gmail.com', estaMatriculado: false, isActive: true}]
+           {id: "2", nombre: 'Jennifer', apellido: 'Honores', edad: 30, correo: 'jennifer.honores@gmail.com', estaMatriculado: false, isActive: true}]
       },
-        {id: 2, nombre: 'Odoo', profesor: 'Jose Chamba', duracionHoras: 80, fechaInicio: new Date(), alumnos:[
-            {id: 1, nombre: 'Carlos', apellido: 'Herrera', edad: 29,
+        {id: "2", nombre: 'Odoo', profesor: 'Jose Chamba', duracionHoras: 80, fechaInicio: new Date(), alumnos:[
+            {id: "1", nombre: 'Carlos', apellido: 'Herrera', edad: 29,
               correo: 'herreradiaz14@gmail.com', estaMatriculado: true, isActive: true }]
         },
-       {id: 3, nombre: 'Angular', profesor: 'Lisseth Cun', duracionHoras: 50, fechaInicio: new Date()}
+       {id: "3", nombre: 'Angular', profesor: 'Lisseth Cun', duracionHoras: 50, fechaInicio: new Date()}
     ];
   }
 
@@ -96,7 +99,9 @@ export class ListaCursosComponent implements OnInit{
       const findCurso = this.cursos.findIndex(element=>element.id===curso.id)
       this.cursos.splice(findCurso, 1);
       this.dataSource = new MatTableDataSource<Curso>(this.cursos);
-      alert("El curso ha sido eliminado");
+      this.snackBar.open(`El curso ha sido eliminado`, `Aceptar`, {
+        duration: 4000, verticalPosition: 'top'
+      });
     });
   }
 
@@ -117,7 +122,9 @@ export class ListaCursosComponent implements OnInit{
     if(findCurso){
       findCurso.alumnos = curso.activos;
       this.dataSource = new MatTableDataSource<Curso>(this.cursos);
-      alert("Se actualizaron los alumnos");
+      this.snackBar.open(`Se actualizaron los alumnos`, `Aceptar`, {
+        duration: 4000, verticalPosition: 'top'
+      });
     }
 
   }

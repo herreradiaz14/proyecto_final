@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menuPrincipal" aria-label="Proyecto Final">
+  <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menuPrincipal" aria-label="Proyecto Final" *ngIf="userLoggued">
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menuPrincipal="matMenu">

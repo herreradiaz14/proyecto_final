@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Curso} from "../../../shared/models/curso";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-abm-cursos',
@@ -15,9 +16,10 @@ export class AbmCursosComponent {
   action: string = 'Nuevo';
   curso!: Curso;
   isDetail: Boolean = false;
-  constructor(private dialogRef: MatDialogRef<AbmCursosComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data.curso);
+  constructor(
+    private dialogRef: MatDialogRef<AbmCursosComponent>, private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.action = data['title'];
     this.isDetail = data['isDetail'];
     let alumnos = [];
@@ -49,14 +51,15 @@ export class AbmCursosComponent {
 
   guardar(){
     if (!this.formHerrera.valid){
-      alert("Debe completar los campos requeridos");
+      this.snackBar.open(`Debe completar los campos requeridos`, `Aceptar`, {
+        duration: 4000, verticalPosition: 'top'
+      });
       return;
     }
     this.dialogRef.close({event: 'add', data: this.curso});
   }
 
   inactivar(){
-    console.log(this.curso.alumnos);
     const activos = this.curso.alumnos?.filter(ele => ele.isActive);
 
     this.dialogRef.close({event: 'inactive', data: {id: this.curso.id, activos: activos}});

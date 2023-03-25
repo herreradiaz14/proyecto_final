@@ -1,35 +1,44 @@
 <div class="col-lg-12">
-<mat-card class="example-card">
+  <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Iniciar sesión</mat-card-title>
     </mat-card-header>
-  <form [formGroup]="authForm"  class="example-form place" (ngSubmit)="signIn()" style="place-self: center; width: 60%;">
-    <mat-card-content>
-    <table class="w-100" cellspacing="0">
-      <tr>
-        <td>
-          <mat-form-field class="w-100">
-          <input matInput placeholder="Usuario" type="text" [(ngModel)]="username" formControlName="username" required>
-          </mat-form-field>
-        </td>
-      </tr>
-      <tr>
-      <td><mat-form-field class="w-100">
-        <input matInput placeholder="Contraseña" type="password" [(ngModel)]="password" formControlName="password" required>
-      </mat-form-field></td>
-      </tr>
-      <tr>
-        <td>
-          <mat-label>Es administrador</mat-label>
-          <mat-checkbox formControlName="isAdmin" [(ngModel)]="isAdmin">SI</mat-checkbox>
-        </td>
-      </tr>
-    </table>
-
-</mat-card-content>
-<mat-card-actions>
-  <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
-</mat-card-actions>
-</form>
-</mat-card>
+    <form [formGroup]="authForm"  class="example-form place" (ngSubmit)="signIn()" style="place-self: center; width: 60%;">
+      <mat-card-content>
+        <table class="w-100" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="w-100">
+                <input matInput placeholder="Usuario" type="text" [(ngModel)]="username" formControlName="username" required>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="w-100">
+              <input matInput placeholder="Contraseña" type="password" [(ngModel)]="password" formControlName="password" required>
+            </mat-form-field></td>
+          </tr>
+          <tr style="display: none;">
+            <td>
+              <mat-label>Es administrador</mat-label>
+              <mat-checkbox formControlName="isAdmin" [(ngModel)]="isAdmin">SI</mat-checkbox>
+            </td>
+          </tr>
+        </table>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+      </mat-card-actions>
+      <div class="col-sm-12">
+        <br>
+        <strong>Instrucciones:</strong> Para iniciar sesión use las siguientes cuentas: <br>
+        <ol>
+          <li>Usuario y contraseña: <strong>admin</strong> (administrador)</li>
+          <li>Usuario y contraseña: <strong>root</strong> (administrador)</li>
+          <li>Usuario y contraseña: <strong>user1</strong> (usuario normal)</li>
+          <li>Usuario y contraseña: <strong>user2</strong> (usuario normal)</li>
+        </ol>
+      </div>
+    </form>
+  </mat-card>
 </div>

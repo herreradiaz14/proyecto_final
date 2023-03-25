@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private  userService: UserService,
     private router: Router, ) { }
 
-  public signIn(userData: User){
+  public signIn(userData: User, isAdmin: boolean=false){
     localStorage.setItem('ACCESS_TOKEN', JSON.stringify(userData));
     this.userService.sendMessage(userData);
   }

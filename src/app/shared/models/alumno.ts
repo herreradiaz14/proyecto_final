@@ -1,7 +1,7 @@
 import { Inscripcion } from "./inscripcion";
 
 export interface Alumno{
-  id: number;
+  id: string;
   nombre: string;
   apellido: string;
   correo: string;

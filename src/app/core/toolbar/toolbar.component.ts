@@ -20,16 +20,11 @@ export class ToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void{
-    console.log(this.authService.isLoggedIn());
-    console.log(localStorage.getItem('ACCESS_TOKEN'));
-    console.log(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')));
     if (this.authService.isLoggedIn()){
       this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
-      console.log(this.userLoggued);
     }
 
     this.subscription = this.userService.onMessage().subscribe(user => {
-      console.log(user, 'XDDDD');
       if (user) {
         this.userLoggued = user;
       } else {
@@ -37,7 +32,7 @@ export class ToolbarComponent implements OnInit {
       }
     });
   }
-  
+
   cerrarSesion(){
     this.authService.logout();
   }
