@@ -2,9 +2,10 @@ import { Alumno } from "./alumno";
 import { Curso } from "./curso";
 
 export interface Inscripcion{
-  id: string;
+  id?: string;
   fecha: Date;
-  pago: number;
+  pago?: number;
   curso: Curso;
+  alumno?: Alumno;
   isActive: boolean;
 }

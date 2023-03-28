@@ -115,21 +115,12 @@ export class ListaAlumnosComponent implements OnInit{
       data: {title: 'Detalle Alumno', 'alumno': alumno, isDetail: true}
     });
 
+
     dialogRef.afterClosed().subscribe(result => {
-      if ( result.event !== 'close')
-        this.quitarIncripcion(result.data);
-    });
-  }
-
-  quitarIncripcion(alumno: any){
-    const findAlumno = this.alumnos.find(element=>element.id===alumno.id);
-    if(findAlumno){
-      findAlumno.inscripciones = alumno.activos;
-      this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
-      this.snackBar.open(`Se actualizaron los cursos`, `Aceptar`, {
-        duration: 4000, verticalPosition: 'top'
+      this.alumnoService.obtenerAlumnos().subscribe(data=> {
+        this.alumnos = data;
+        this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
       });
-    }
-
+    });
   }
 }

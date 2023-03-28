@@ -16,6 +16,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
     CursosModule,
     InscripcionesModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([])
   ],
   exports: [
     MenuComponent

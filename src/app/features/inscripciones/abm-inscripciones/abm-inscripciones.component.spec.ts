@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AbmInscripcionesComponent } from './abm-inscripciones.component';
+import {ListaCursosComponent} from "../../cursos/lista-cursos/lista-cursos.component";
 
 describe('AbmInscripcionesComponent', () => {
   let component: AbmInscripcionesComponent;
@@ -18,6 +19,15 @@ describe('AbmInscripcionesComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(AbmInscripcionesComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it('should render title in a h1 tag', () => {
+    const fixture = TestBed.createComponent(AbmInscripcionesComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-unit-test!');
   });
 });

@@ -49,6 +49,24 @@
           </mat-card>
         </div>
         <hr>
+        <form [formGroup]="formInscripcion" >
+          Inscribir
+          <mat-form-field class="col-md-4">
+            <mat-label>Curso</mat-label>
+            <mat-select formControlName="curso" [(ngModel)]="curso">
+              <mat-option *ngFor="let curso of cursos" [value]="curso">{{ curso.nombre }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-4">
+            <mat-label>Fecha inicio</mat-label>
+            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin"
+                   (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+            <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+            <mat-datepicker #fechaFin></mat-datepicker>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="inscribir()">Inscribir</button>
+        </form>
+        <hr>
         <div class="row" *ngIf="alumno.inscripciones && alumno.inscripciones.length > 0">
           <div class="col" *ngFor="let curso of alumno.inscripciones">
             <mat-card>
@@ -57,11 +75,10 @@
                 <mat-card-subtitle>{{ curso.curso.profesor }}</mat-card-subtitle>
               </mat-card-header>
               <mat-card-content>
-                <p>Fecha de inscripciónr {{ curso.fecha }}</p>
+                <p>Fecha de inscripción {{ curso.fecha }}</p>
               </mat-card-content>
               <mat-card-actions align="end">
-                <button mat-raised-button color="warn" *ngIf="isDetail">
-                  <mat-checkbox   id="{{ curso.id }}" name="{{ curso.id }}"  [(ngModel)]="curso.isActive">Inscrito</mat-checkbox>
+                <button mat-raised-button color="warn" *ngIf="isDetail" (click)="quitarIncripcion(curso)">Desinscribir
                 </button>
               </mat-card-actions>
             </mat-card>
@@ -75,7 +92,7 @@
   </mat-tab-group>
 </div>
 <div mat-dialog-actions>
-  <button mat-flat-button (click)="inactivar()" *ngIf="isDetail">Inactivar</button>
+<!--  <button mat-flat-button (click)="inactivar()" *ngIf="isDetail">Guardar inscripciones</button>-->
   <button mat-flat-button (click)="guardar()"  *ngIf="!isDetail">Guardar</button>
   <button mat-button (click)="closeModal()">Cerrar</button>
 </div>

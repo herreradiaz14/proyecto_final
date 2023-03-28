@@ -13,6 +13,9 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTabsModule } from "@angular/material/tabs";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepicker, MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 
@@ -32,7 +35,10 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatDialogModule,
     MatCheckboxModule,
     MatTabsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [
     MatToolbarModule,
@@ -48,7 +54,10 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatDialogModule,
     MatCheckboxModule,
     MatTabsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ]
 })
 export class MaterialModule { }
