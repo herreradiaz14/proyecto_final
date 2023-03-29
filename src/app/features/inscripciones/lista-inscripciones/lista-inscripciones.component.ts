@@ -4,9 +4,10 @@ import { MatDialog } from "@angular/material/dialog";
 import { InscripcionesService } from "../../../services/inscripciones.service";
 import { Inscripcion } from "../../../shared/models/inscripcion";
 import { AbmInscripcionesComponent } from "../abm-inscripciones/abm-inscripciones.component";
-import { User } from "../../../components/auth/models/user";
-import {AuthService} from "../../../services/auth.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { User } from "../../../shared/models/user";
+import { AuthService } from "../../../services/auth.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-lista-inscripciones',
@@ -16,12 +17,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class ListaInscripcionesComponent implements OnInit{
   inscripciones: Inscripcion[] = [];
   dataSource: MatTableDataSource<Inscripcion> = new MatTableDataSource<Inscripcion>([]);
-  columnas: string[] = ['fecha', 'pago', 'curso', 'isActive', 'acciones'];
+  columnas: string[] = ['fecha', 'usuarioInscribio', 'curso', 'isActive', 'acciones'];
   userLoggued?: User;
 
   constructor(
     private dialog: MatDialog, private inscripcionService: InscripcionesService,
-    private authService: AuthService, private snackBar: MatSnackBar
+    private authService: AuthService, private snackBar: MatSnackBar, private router: Router
   ) {
   }
 
@@ -48,15 +49,10 @@ export class ListaInscripcionesComponent implements OnInit{
   }
 
   agregarInscripcion() {
-    let dialogRef = this.dialog.open(AbmInscripcionesComponent, {
-      data: {'title': 'Nuevo', 'inscripcion': {id: null, fecha: '', pago: 0, curso: [], isActive: false}}
+    this.router.navigateByUrl('/alumnos/list');
+    this.snackBar.open(`Puede realizar las inscripciones desde esta vista, para ello debe dar clic en Ver Detalles`, `Aceptar`, {
+      duration: 25000, verticalPosition: 'top'
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if ( result.event !== 'close')
-        this.guardarInscripcion(result.data);
-    });
-
   }
 
   guardarInscripcion(inscripcion: Inscripcion){
@@ -65,7 +61,7 @@ export class ListaInscripcionesComponent implements OnInit{
       if(findinscripcion){
         this.inscripcionService.editarInscripcion(inscripcion).subscribe(data=> {
           findinscripcion.fecha = inscripcion.fecha;
-          findinscripcion.pago = inscripcion.pago;
+          findinscripcion.usuarioInscribio = inscripcion.usuarioInscribio;
           findinscripcion.curso = inscripcion.curso;
           findinscripcion.isActive = inscripcion.isActive;
           this.dataSource = new MatTableDataSource<Inscripcion>(this.inscripciones);

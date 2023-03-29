@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../components/auth/models/user';
+import { User } from '../shared/models/user';
 import { UserService } from '../components/security/user.service';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private  userService: UserService,
     private router: Router, ) { }
 
-  public signIn(userData: User, isAdmin: boolean=false){
+  public signIn(userData: User){
     localStorage.setItem('ACCESS_TOKEN', JSON.stringify(userData));
     this.userService.sendMessage(userData);
   }

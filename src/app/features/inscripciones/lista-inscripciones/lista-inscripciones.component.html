@@ -4,21 +4,21 @@
   </div>
   <div class="col-md-8">
     <h1 appDirectivaPrincipal>Listar inscripciones</h1>
-<!--    <div class="example-flex-container">-->
-<!--      <button mat-raised-button color="accent" (click)="agregarInscripcion()">Agregar inscripción</button>-->
-<!--    </div>-->
+    <div class="example-flex-container">
+      <button mat-raised-button color="accent" (click)="agregarInscripcion()">Agregar inscripción</button>
+    </div>
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="fecha">
         <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Fecha</th>
         <td mat-cell *matCellDef="let element">{{ element.fecha | date }}</td>
       </ng-container>
-      <ng-container matColumnDef="pago">
-        <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Pago</th>
-        <td mat-cell *matCellDef="let element">{{ element.pago }}</td>
+      <ng-container matColumnDef="usuarioInscribio">
+        <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Usuario que inscribió</th>
+        <td mat-cell *matCellDef="let element">{{ element.usuarioInscribio.username }}</td>
       </ng-container>
       <ng-container matColumnDef="curso">
         <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Cursos</th>
-        <td mat-cell *matCellDef="let element">{{ element.curso | json }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.curso.nombre }}</td>
       </ng-container>
       <ng-container matColumnDef="isActive">
         <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Activo</th>

@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {Curso} from "../../../shared/models/curso";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { Curso } from "../../../shared/models/curso";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-abm-cursos',
@@ -31,15 +31,14 @@ export class AbmCursosComponent {
       nombre: data.curso.nombre,
       profesor: data.curso.profesor,
       duracionHoras: data.curso.duracionHoras,
-      fechaInicio:data.curso.fechaInicio,
+      cantidadClases:data.curso.cantidadClases,
       alumnos: alumnos
     };
-    const formato = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     let elementos: any = {
       nombre: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       profesor: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       duracionHoras: new FormControl('', [Validators.required]),
-      fechaInicio: new FormControl('', [Validators.required])
+      cantidadClases: new FormControl('', [Validators.required])
     }
 
     this.formHerrera = new FormGroup(elementos);

@@ -24,9 +24,9 @@
             <div class="form-no-valid" *ngIf="formHerrera.controls['duracionHoras'].dirty && formHerrera.controls['duracionHoras'].errors?.['required']">El campo duración es requerido</div>
           </mat-form-field>
           <mat-form-field appearance="fill">
-            <mat-label>Fecha Inicio</mat-label>
-            <input type="text" name="fechaInicio" formControlName="fechaInicio" matInput [(ngModel)]="curso.fechaInicio"/>
-            <div class="form-no-valid" *ngIf="formHerrera.controls['fechaInicio'].dirty && formHerrera.controls['fechaInicio'].errors?.['required']">El campo fecha de inicio es requerido</div>
+            <mat-label># Clases</mat-label>
+            <input type="text" name="cantidadClases" formControlName="cantidadClases" matInput [(ngModel)]="curso.cantidadClases"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['cantidadClases'].dirty && formHerrera.controls['cantidadClases'].errors?.['required']">El campo cantidad de clases es requerido</div>
           </mat-form-field>
         </div>
       </form>
@@ -41,7 +41,7 @@
               <mat-card-subtitle>Profesor: {{ curso.profesor }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <p>{{ curso.fechaInicio }}</p>
+              <p>{{ curso.duracionHoras }}</p>
             </mat-card-content>
           </mat-card>
         </div>
@@ -51,10 +51,10 @@
             <mat-card>
               <mat-card-header>
                 <mat-card-title>{{ alumno.nombre | nombreApellido:alumno.apellido }}</mat-card-title>
-                <mat-card-subtitle>{{ alumno.edad }}</mat-card-subtitle>
+                <mat-card-subtitle>{{ alumno.sexo }}</mat-card-subtitle>
               </mat-card-header>
               <mat-card-content>
-                <p>Correo: {{ alumno.correo }}</p>
+                <p>Perfil: {{ alumno.perfil }}</p>
               </mat-card-content>
               <mat-card-actions align="end">
                 <button mat-raised-button color="warn" *ngIf="isDetail">

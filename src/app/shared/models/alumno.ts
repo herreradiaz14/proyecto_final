@@ -4,9 +4,8 @@ export interface Alumno{
   id: string;
   nombre: string;
   apellido: string;
-  correo: string;
-  edad: number;
-  estaMatriculado: boolean;
+  perfil?: string;
   inscripciones?: Inscripcion[];
+  sexo?: boolean;
   isActive?: boolean;
 }

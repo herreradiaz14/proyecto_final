@@ -6,6 +6,6 @@ export interface Curso{
   nombre: string;
   profesor: string;
   duracionHoras: number;
-  fechaInicio: Date;
+  cantidadClases: number;
   alumnos?: Alumno[];
 }

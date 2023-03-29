@@ -3,10 +3,9 @@ import { Alumno } from "../../../shared/models/alumno";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from "@angular/material/dialog";
 import { AbmAlumnosComponent } from "../abm-alumnos/abm-alumnos.component";
-import {Inscripcion} from "../../../shared/models/inscripcion";
 import { AlumnoService } from 'src/app/services/alumnos.service.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/components/auth/models/user';
+import { User } from 'src/app/shared/models/user';
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -17,7 +16,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class ListaAlumnosComponent implements OnInit{
   alumnos: Alumno[] = [];
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource<Alumno>([]);
-  columnas: string[] = ['nombre', 'edad', 'correo', 'estaMatriculado', 'acciones'];
+  columnas: string[] = ['nombre', 'sexo', 'perfil', 'acciones'];
   userLoggued?: User;
 
   constructor(
@@ -30,25 +29,10 @@ export class ListaAlumnosComponent implements OnInit{
     if (this.authService.isLoggedIn()){
       this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
     }
-    //this.alumnos = this.listData();
     this.alumnoService.obtenerAlumnos().subscribe(data=> {
       this.alumnos = data;
       this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
     });
-  }
-
-  listData(): Alumno[] {
-    return [
-      {id: "1", nombre: 'Carlos', apellido: 'Herrera', edad: 29, correo: 'herreradiaz14@gmail.com', estaMatriculado: true, inscripciones: [
-          {id: "1", fecha: new Date(), curso: {id: "1", nombre: 'Angular', profesor: 'Lisseth Cun', duracionHoras: 50, fechaInicio: new Date()}, pago: 400, isActive: true},
-          {id: "2", fecha: new Date(), curso: {id: "2", nombre: 'Odoo', profesor: 'Jose Chamba', duracionHoras: 80, fechaInicio: new Date()}, pago: 400, isActive: true}
-        ]},
-      {id: "2", nombre: 'Jennifer', apellido: 'Honores', edad: 30, correo: 'jennifer.honores@gmail.com', estaMatriculado: false, inscripciones: [
-          {id: "3", fecha: new Date(), curso: {id: "3", nombre: 'Angular', profesor: 'Lisseth Cun', duracionHoras: 50, fechaInicio: new Date()}, pago: 400, isActive: true}
-        ]},
-      {id: "3", nombre: 'Luis', apellido: 'Jiménez', edad: 32, correo: 'luis_jimenez_1@hotmail.com', estaMatriculado: false},
-      {id: "4", nombre: 'María', apellido: 'López', edad: 25, correo: 'maria_lopez_2@hotmail.com', estaMatriculado: true}
-    ];
   }
 
   editarAlumno(alumno: Alumno) {
@@ -64,7 +48,7 @@ export class ListaAlumnosComponent implements OnInit{
 
   agregarAlumno() {
     let dialogRef = this.dialog.open(AbmAlumnosComponent, {
-      data: {'title': 'Nuevo', 'alumno': {id: null, nombre: '', apellido: '', edad: 0, correo: '', estaMatriculado: false}}
+      data: {'title': 'Nuevo', 'alumno': {id: null, nombre: '', apellido: '', sexo: '', perfil: ''}}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -81,9 +65,8 @@ export class ListaAlumnosComponent implements OnInit{
         this.alumnoService.editarAlumno(alumno).subscribe(data=> {
           findAlumno.nombre = alumno.nombre;
           findAlumno.apellido = alumno.apellido;
-          findAlumno.edad = alumno.edad;
-          findAlumno.correo = alumno.correo;
-          findAlumno.estaMatriculado = alumno.estaMatriculado;
+          findAlumno.perfil = alumno.perfil;
+          findAlumno.sexo = alumno.sexo;
 
           this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
         });
