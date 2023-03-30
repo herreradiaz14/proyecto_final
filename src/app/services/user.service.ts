@@ -30,4 +30,37 @@ export class UserService {
       catchError(this.capturarError)
     );
   }
+
+  agregarUsuario(usuario: User): Observable<User>{
+    return this.http.post<User>(`${env.apiURL2}/usuarios`, usuario, {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',
+        'encoding': 'UTF-8'
+      })
+    }).pipe(
+      catchError(this.capturarError)
+    );
+  }
+
+  editarUsuario(usuario: User): Observable<User>{
+    return this.http.put<User>(`${env.apiURL2}/usuarios/${usuario.id}`, usuario, {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',
+        'encoding': 'UTF-8'
+      })
+    }).pipe(
+      catchError(this.capturarError)
+    );
+  }
+
+  eliminarUsuario(usuario: User): Observable<User>{
+    return this.http.delete<User>(`${env.apiURL2}/usuarios/${usuario.id}`, {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',
+        'encoding': 'UTF-8'
+      })
+    }).pipe(
+      catchError(this.capturarError)
+    );
+  }
 }

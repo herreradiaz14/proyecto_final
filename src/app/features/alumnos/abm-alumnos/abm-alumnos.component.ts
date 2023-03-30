@@ -77,8 +77,6 @@ export class AbmAlumnosComponent implements OnInit{
   ngOnInit(): void{
     if (this.authService.isLoggedIn()){
       this.usuarioLogueado = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
-      console.log("---");
-      console.log(this.usuarioLogueado);
     }
   }
 

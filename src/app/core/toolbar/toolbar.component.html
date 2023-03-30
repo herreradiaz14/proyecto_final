@@ -15,6 +15,10 @@
       <mat-icon>touch_app</mat-icon>
       <span>Administración de inscripciones</span>
     </button>
+    <button mat-menu-item routerLink="usuarios" *ngIf="userLoggued && userLoggued.isAdmin">
+      <mat-icon>groups</mat-icon>
+      <span>Administración de usuarios</span>
+    </button>
     <button mat-menu-item (click)="cerrarSesion()">
       <mat-icon>logout</mat-icon>
       <span>Cerrar sesión</span>

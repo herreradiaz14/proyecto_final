@@ -17,7 +17,7 @@ import { Router } from "@angular/router";
 export class ListaInscripcionesComponent implements OnInit{
   inscripciones: Inscripcion[] = [];
   dataSource: MatTableDataSource<Inscripcion> = new MatTableDataSource<Inscripcion>([]);
-  columnas: string[] = ['fecha', 'usuarioInscribio', 'curso', 'isActive', 'acciones'];
+  columnas: string[] = ['fecha', 'usuarioInscribio', 'curso', 'alumno', 'isActive', 'acciones'];
   userLoggued?: User;
 
   constructor(
@@ -63,6 +63,7 @@ export class ListaInscripcionesComponent implements OnInit{
           findinscripcion.fecha = inscripcion.fecha;
           findinscripcion.usuarioInscribio = inscripcion.usuarioInscribio;
           findinscripcion.curso = inscripcion.curso;
+          findinscripcion.alumno = inscripcion.alumno;
           findinscripcion.isActive = inscripcion.isActive;
           this.dataSource = new MatTableDataSource<Inscripcion>(this.inscripciones);
         });

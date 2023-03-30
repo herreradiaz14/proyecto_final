@@ -18,14 +18,13 @@ import { MenuComponent } from './components/menu/menu.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { UsuariosModule } from './features/usuarios/usuarios.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     Pagina404Component,
-    // AbmInscripcionesComponent,
-    // ListaInscripcionesComponent,
     InicioComponent,
     AuthComponent
   ],
@@ -41,7 +40,8 @@ import { EffectsModule } from '@ngrx/effects';
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    UsuariosModule
   ],
   exports: [
     MenuComponent

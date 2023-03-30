@@ -63,6 +63,4 @@ export class AlumnoService {
       catchError(this.capturarError)
     );
   }
-
-  //https://github.com/AbnerGarcia96/Comision-40510-Angular/blob/main/14-HTTP/src/app/cursos/services/cursos.service.ts
 }

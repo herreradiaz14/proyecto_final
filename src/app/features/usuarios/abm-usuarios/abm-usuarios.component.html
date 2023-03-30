@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>{{ action }}</h1>
+<div mat-dialog-content>
+  <mat-tab-group>
+    <mat-tab label="Usuario">
+      <form [formGroup]="formHerrera">
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre de usuario</mat-label>
+            <input type="text" name="username" formControlName="username" matInput [(ngModel)]="usuario.username"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['username'].dirty && formHerrera.controls['username'].errors?.['required']">El campo nombre de usuario es requerido</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['username'].dirty && formHerrera.controls['username'].errors?.['minlength']">El campo nombre de usuario debe tener mínimo {{ formHerrera.controls['username'].errors?.['minlength']['requiredLength'] }} caracteres</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['username'].dirty && formHerrera.controls['username'].errors?.['maxlength']">El campo nombre de usuario debe tener máximo {{ formHerrera.controls['username'].errors?.['maxlength']['requiredLength'] }} caracteres</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input type="email" name="email" formControlName="email" matInput [(ngModel)]="usuario.email"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['email'].dirty && formHerrera.controls['email'].errors?.['required']">El campo email es requerido</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['email'].dirty && formHerrera.controls['email'].errors?.['pattern']">El campo email no cumple con un formato correcto</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Contraseña</mat-label>
+            <input type="password" name="password" formControlName="password" matInput [(ngModel)]="usuario.password"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['password'].dirty && formHerrera.controls['password'].errors?.['required']">El campo contraseña es requerido</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['password'].dirty && formHerrera.controls['password'].errors?.['minlength']">El campo contraseña debe tener mínimo {{ formHerrera.controls['password'].errors?.['minlength']['requiredLength'] }} caracteres</div>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['password'].dirty && formHerrera.controls['password'].errors?.['maxlength']">El campo contraseña debe tener máximo {{ formHerrera.controls['password'].errors?.['maxlength']['requiredLength'] }} caracteres</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Teléfono</mat-label>
+            <input type="text" name="telefono" formControlName="telefono" matInput [(ngModel)]="usuario.telefono"/>
+            <div class="form-no-valid" *ngIf="formHerrera.controls['telefono'].dirty && formHerrera.controls['telefono'].errors?.['required']">El campo teléfono es requerido</div>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Dirección</mat-label>
+            <input type="text" name="direccion" formControlName="direccion" matInput [(ngModel)]="usuario.direccion"/>
+          </mat-form-field>
+          <mat-label>Es administrador</mat-label>
+          <mat-checkbox formControlName="isAdmin" [(ngModel)]="usuario.isAdmin">SI</mat-checkbox>
+        </div>
+      </form>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="guardar()">Guardar</button>
+  <button mat-button (click)="closeModal()">Cerrar</button>
+</div>

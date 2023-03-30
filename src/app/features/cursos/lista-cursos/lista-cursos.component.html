@@ -5,27 +5,27 @@
 <div class="col-md-8">
   <h1 appDirectivaPrincipal>Listar Cursos</h1>
 <div class="example-flex-container">
-  <button mat-raised-button color="accent" (click)="agregarCurso()">Agregar Curso</button>
+  <button mat-raised-button color="accent" (click)="agregarCurso()" *ngIf="userLoggued && userLoggued.isAdmin">Agregar Curso</button>
 </div>
 <table mat-table [dataSource]="dataSource">
   <ng-container matColumnDef="nombre">
-    <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Nombre</th>
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
     <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
   </ng-container>
   <ng-container matColumnDef="profesor">
-    <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Profesor</th>
+    <th mat-header-cell *matHeaderCellDef>Profesor</th>
     <td mat-cell *matCellDef="let element">{{ element.profesor }}</td>
   </ng-container>
   <ng-container matColumnDef="duracionHoras">
-    <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Duración de horas</th>
+    <th mat-header-cell *matHeaderCellDef>Duración de horas</th>
     <td mat-cell *matCellDef="let element">{{ element.duracionHoras }}</td>
   </ng-container>
   <ng-container matColumnDef="cantidadClases">
-    <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal># Clases</th>
+    <th mat-header-cell *matHeaderCellDef># Clases</th>
     <td mat-cell *matCellDef="let element">{{ element.cantidadClases }}</td>
   </ng-container>
   <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef appDirectivaPrincipal>Acciones</th>
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
     <td mat-cell *matCellDef="let element">
       <button mat-icon-button color="inf" (click)="verDeatalleCurso(element)" title="Ver detalles">
         <mat-icon>view_list</mat-icon>

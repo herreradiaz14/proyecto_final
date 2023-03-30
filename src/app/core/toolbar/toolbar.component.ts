@@ -14,7 +14,7 @@ export class ToolbarComponent implements OnInit {
   subscription?: Subscription;
   userLoggued?: User;
 
-  constructor(private  userService: UserService,
+  constructor(private userService: UserService,
     private authService: AuthService){
 
   }

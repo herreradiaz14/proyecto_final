@@ -7,13 +7,18 @@
       </a>
     </li>
     <li>
-      <a routerLink="/alumnos/list" class="nav-link" routerLinkActive="active"  aria-current="page">
+      <a routerLink="/alumnos" class="nav-link" routerLinkActive="active"  aria-current="page">
         <mat-icon class="mat-icon-margin">perm_contact_calendar</mat-icon> <span>Administración de alumnos</span>
       </a>
     </li>
     <li>
       <a routerLink="/inscripciones" class="nav-link" routerLinkActive="active" aria-current="page">
         <mat-icon class="mat-icon-margin">touch_app</mat-icon> <span>Administración de inscripciones</span>
+      </a>
+    </li>
+    <li *ngIf="userLoggued && userLoggued.isAdmin">
+      <a routerLink="/usuarios" class="nav-link" routerLinkActive="active" aria-current="page">
+        <mat-icon class="mat-icon-margin">groups</mat-icon> <span>Administración de usuarios</span>
       </a>
     </li>
   </ul>
