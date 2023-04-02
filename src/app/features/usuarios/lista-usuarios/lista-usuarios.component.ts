@@ -41,7 +41,7 @@ export class ListaUsuariosComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result.event !== 'close')
+      if (result && result.event !== 'close')
         this.guardarUsuario(result.data);
     });
   }
@@ -52,12 +52,13 @@ export class ListaUsuariosComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result.event !== 'close')
+      if (result && result.event !== 'close')
         this.guardarUsuario(result.data);
     });
   }
 
   guardarUsuario(usuario: User){
+    let component_message = `El usuario ha sido creado correctamente`;
     if(usuario.id){
       const findUser = this.usuarios.find(element=>element.id===usuario.id)
       if(findUser){
@@ -70,6 +71,7 @@ export class ListaUsuariosComponent implements OnInit {
           findUser.isAdmin = usuario.isAdmin;
           this.dataSource = new MatTableDataSource<User>(this.usuarios);
         });
+        component_message = `El usuario ha sido modificado correctamente`;
       }
     }else{
       this.userService.agregarUsuario(usuario).subscribe(data=> {
@@ -77,6 +79,10 @@ export class ListaUsuariosComponent implements OnInit {
         this.dataSource = new MatTableDataSource<User>(this.usuarios);
       });
     }
+
+    this.snackBar.open(component_message, `Aceptar`, {
+      duration: 4000, verticalPosition: 'top'
+    });
   }
 
   eliminarUsuario(usuario: User){

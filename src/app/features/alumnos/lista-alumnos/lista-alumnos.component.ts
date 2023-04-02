@@ -6,7 +6,7 @@ import { AbmAlumnosComponent } from "../abm-alumnos/abm-alumnos.component";
 import { AlumnoService } from 'src/app/services/alumnos.service.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/shared/models/user';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-lista-alumnos',
@@ -41,7 +41,7 @@ export class ListaAlumnosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if ( result.event !== 'close')
+      if ( result && result.event !== 'close')
         this.guardarAlumno(result.data);
     });
   }
@@ -52,13 +52,14 @@ export class ListaAlumnosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if ( result.event !== 'close')
+      if ( result && result.event !== 'close')
         this.guardarAlumno(result.data);
     });
 
   }
 
   guardarAlumno(alumno: Alumno){
+    let component_message = `El alumno ha sido creado correctamente`;
     if(alumno.id){
       const findAlumno = this.alumnos.find(element=>element.id===alumno.id)
       if(findAlumno){
@@ -70,6 +71,7 @@ export class ListaAlumnosComponent implements OnInit{
 
           this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
         });
+        component_message = `El alumno ha sido modificado correctamente`;
       }
     }else{
       this.alumnoService.agregarAlumno(alumno).subscribe(data=> {
@@ -78,7 +80,9 @@ export class ListaAlumnosComponent implements OnInit{
       });
 
     }
-
+    this.snackBar.open(component_message, `Aceptar`, {
+      duration: 4000, verticalPosition: 'top'
+    });
   }
 
   eliminarAlumno(alumno: Alumno){

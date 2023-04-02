@@ -23,4 +23,8 @@ export class AuthService {
     this.userService.sendMessage(null);
     this.router.navigateByUrl('/login');
   }
+
+  public dataUser(){
+    return JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
+  }
 }

@@ -1,8 +1,10 @@
-import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Curso } from "../../../shared/models/curso";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import {Component, Inject} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Curso} from "../../../shared/models/curso";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {InscripcionesService} from "../../../services/inscripciones.service";
+import {Alumno} from "../../../shared/models/alumno";
 
 @Component({
   selector: 'app-abm-cursos',
@@ -17,28 +19,30 @@ export class AbmCursosComponent {
   curso!: Curso;
   isDetail: Boolean = false;
   constructor(
-    private dialogRef: MatDialogRef<AbmCursosComponent>, private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private dialogRef: MatDialogRef<AbmCursosComponent>,
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  private inscripcionService: InscripcionesService,
   ) {
     this.action = data['title'];
     this.isDetail = data['isDetail'];
-    let alumnos = [];
-    if(data.curso.alumnos && data.curso.alumnos.length >0){
-      alumnos = JSON.parse(JSON.stringify(data.curso.alumnos));
-    }
     this.curso = {
       id: data.curso.id,
       nombre: data.curso.nombre,
       profesor: data.curso.profesor,
       duracionHoras: data.curso.duracionHoras,
       cantidadClases:data.curso.cantidadClases,
-      alumnos: alumnos
+      alumnos: []
     };
     let elementos: any = {
       nombre: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       profesor: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       duracionHoras: new FormControl('', [Validators.required]),
       cantidadClases: new FormControl('', [Validators.required])
+    }
+
+    if(this.isDetail){
+      this.listarInscripciones();
     }
 
     this.formHerrera = new FormGroup(elementos);
@@ -62,5 +66,21 @@ export class AbmCursosComponent {
     const activos = this.curso.alumnos?.filter(ele => ele.isActive);
 
     this.dialogRef.close({event: 'inactive', data: {id: this.curso.id, activos: activos}});
+  }
+
+  listarInscripciones(){
+    this.inscripcionService.obtenerInscripciones().subscribe(data=> {
+      if (data && data.length > 0) {
+        const filtroAlumnos = data.filter(inscripcion => inscripcion.curso && inscripcion.curso.id === this.curso.id);
+        console.log(filtroAlumnos)
+        if (filtroAlumnos && filtroAlumnos.length > 0) {
+            for (const inscripcion of filtroAlumnos){
+              if (inscripcion.alumno) {
+                this.curso.alumnos?.push(inscripcion.alumno);
+              }
+            }
+          }
+        }
+    });
   }
 }

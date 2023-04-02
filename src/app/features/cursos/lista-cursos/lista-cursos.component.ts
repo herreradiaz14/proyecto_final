@@ -37,11 +37,13 @@ export class ListaCursosComponent implements OnInit{
 
   editarCurso(curso: Curso) {
     const dialogRef = this.dialog.open(AbmCursosComponent, {
-      data: {'title': 'Editar', 'curso': curso}
+      data: {'title': 'Editar', 'curso': curso},
+      height: '400px',
+      width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if ( result.event !== 'close')
+      if ( result && result.event !== 'close')
         this.guardarCurso(result.data);
     });
   }
@@ -52,13 +54,14 @@ export class ListaCursosComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if ( result.event !== 'close')
+      if ( result && result.event !== 'close')
         this.guardarCurso(result.data);
     });
 
   }
 
   guardarCurso(curso: Curso){
+    let component_message = `El curso ha sido creado correctamente`;
     if(curso.id){
       const findCurso = this.cursos.find(element=>element.id===curso.id)
       if(findCurso){
@@ -69,6 +72,7 @@ export class ListaCursosComponent implements OnInit{
           findCurso.cantidadClases = curso.cantidadClases;
           this.dataSource = new MatTableDataSource<Curso>(this.cursos);
         });
+        component_message = `El curso ha sido modificado correctamente`;
       }
     }else{
       this.cursoService.agregarCurso(curso).subscribe(data=> {
@@ -76,6 +80,10 @@ export class ListaCursosComponent implements OnInit{
         this.dataSource = new MatTableDataSource<Curso>(this.cursos);
       });
     }
+
+    this.snackBar.open(component_message, `Aceptar`, {
+      duration: 4000, verticalPosition: 'top'
+    });
   }
 
   eliminarCurso(curso: Curso){
@@ -92,11 +100,13 @@ export class ListaCursosComponent implements OnInit{
 
   verDeatalleCurso(curso: Curso) {
     const dialogRef = this.dialog.open(AbmCursosComponent, {
-      data: {title: 'Detalle Curso', 'curso': curso, isDetail: true}
+      data: {title: 'Detalle Curso', 'curso': curso, isDetail: true},
+      height: '400px',
+      width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if ( result.event !== 'close')
+      if ( result && result.event !== 'close')
         this.quitarIncripcion(result.data);
     });
   }

@@ -35,7 +35,7 @@
         </div>
       </form>
     </mat-tab>
-    <mat-tab label="Cursos" *ngIf="isDetail">
+    <mat-tab label="Alumnos" *ngIf="isDetail">
 
       <div class="container">
         <div class="row">
@@ -45,7 +45,7 @@
               <mat-card-subtitle>Sexo: {{ alumno.sexo }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <p>{{ alumno.perfil }}</p>
+              <p>Perfil: {{ alumno.perfil | uppercase }}</p>
             </mat-card-content>
           </mat-card>
         </div>

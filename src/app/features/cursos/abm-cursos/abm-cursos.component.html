@@ -24,7 +24,7 @@
             <div class="form-no-valid" *ngIf="formHerrera.controls['duracionHoras'].dirty && formHerrera.controls['duracionHoras'].errors?.['required']">El campo duración es requerido</div>
           </mat-form-field>
           <mat-form-field appearance="fill">
-            <mat-label># Clases</mat-label>
+            <mat-label>Número de Clases</mat-label>
             <input type="number" name="cantidadClases" formControlName="cantidadClases" matInput [(ngModel)]="curso.cantidadClases"/>
             <div class="form-no-valid" *ngIf="formHerrera.controls['cantidadClases'].dirty && formHerrera.controls['cantidadClases'].errors?.['required']">El campo cantidad de clases es requerido</div>
           </mat-form-field>
@@ -32,7 +32,6 @@
       </form>
     </mat-tab>
     <mat-tab label="Cursos" *ngIf="isDetail">
-
       <div class="container">
         <div class="row">
           <mat-card>
@@ -47,6 +46,7 @@
         </div>
         <hr>
         <div class="row" *ngIf="curso.alumnos && curso.alumnos.length > 0">
+          <h2>Lista de alumnos inscritos</h2>
           <div class="col" *ngFor="let alumno of curso.alumnos">
             <mat-card>
               <mat-card-header>
@@ -54,13 +54,8 @@
                 <mat-card-subtitle>{{ alumno.sexo }}</mat-card-subtitle>
               </mat-card-header>
               <mat-card-content>
-                <p>Perfil: {{ alumno.perfil }}</p>
+                <p>Perfil: {{ alumno.perfil | uppercase }}</p>
               </mat-card-content>
-              <mat-card-actions align="end">
-                <button mat-raised-button color="warn" *ngIf="isDetail">
-                  <mat-checkbox   id="{{ alumno.id }}" name="{{ alumno.id }}"  [(ngModel)]="alumno.isActive">Inscrito</mat-checkbox>
-                </button>
-              </mat-card-actions>
             </mat-card>
           </div>
         </div>
@@ -72,7 +67,6 @@
   </mat-tab-group>
 </div>
 <div mat-dialog-actions>
-  <button mat-flat-button (click)="inactivar()" *ngIf="isDetail">Inactivar</button>
   <button mat-flat-button (click)="guardar()"  *ngIf="!isDetail">Guardar</button>
   <button mat-button (click)="closeModal()">Cerrar</button>
 </div>

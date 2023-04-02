@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Pagina404Component } from "./components/pagina404/pagina404.component";
 import { AuthComponent } from './components/auth/auth.component';
 import { AuthGuardGuard } from './components/security/auth.guard.guard';
+import {AuthAdminGuardGuard} from "./components/security/auth.admin.guard.guard";
 
 const routes: Routes = [
 
@@ -19,7 +20,7 @@ const routes: Routes = [
     canLoad: [AuthGuardGuard] },
   { path: 'usuarios',
     loadChildren: () => import('./features/usuarios/usuarios.module').then((modulo) => modulo.UsuariosModule),
-    canLoad: [AuthGuardGuard] },
+    canLoad: [AuthGuardGuard], canActivate: [AuthAdminGuardGuard] },
   {path: '**', component: Pagina404Component}
 ];
 

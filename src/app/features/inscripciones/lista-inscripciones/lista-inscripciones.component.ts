@@ -43,7 +43,7 @@ export class ListaInscripcionesComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if ( result.event !== 'close')
+      if ( result && result.event !== 'close')
         this.guardarInscripcion(result.data);
     });
   }
