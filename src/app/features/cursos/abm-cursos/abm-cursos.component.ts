@@ -72,7 +72,6 @@ export class AbmCursosComponent {
     this.inscripcionService.obtenerInscripciones().subscribe(data=> {
       if (data && data.length > 0) {
         const filtroAlumnos = data.filter(inscripcion => inscripcion.curso && inscripcion.curso.id === this.curso.id);
-        console.log(filtroAlumnos)
         if (filtroAlumnos && filtroAlumnos.length > 0) {
             for (const inscripcion of filtroAlumnos){
               if (inscripcion.alumno) {

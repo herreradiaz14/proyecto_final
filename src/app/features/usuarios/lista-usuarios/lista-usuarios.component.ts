@@ -5,7 +5,16 @@ import { MatDialog } from "@angular/material/dialog";
 import { AuthService } from "../../../services/auth.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { UserService } from "../../../services/user.service";
-import {AbmUsuariosComponent} from "../abm-usuarios/abm-usuarios.component";
+import { AbmUsuariosComponent } from "../abm-usuarios/abm-usuarios.component";
+import { Observable } from "rxjs";
+import { Store } from "@ngrx/store";
+import { UsuarioState } from "../state/usuario-state.reducer";
+import {
+  cargarUsuarioState, agregarUsuarioState, editarUsuarioState, eliminarUsuarioState
+} from "../state/usuario-state.actions";
+import {
+  selectCargandoUsuarios, selectUsuariosCargados
+} from "../state/usuario-state.selectors";
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -17,11 +26,13 @@ export class ListaUsuariosComponent implements OnInit {
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
   columnas: string[] = ['username', 'password', 'email', 'direccion', 'telefono', 'isAdmin', 'acciones'];
   userLoggued?: User;
+  cargando$!: Observable<Boolean>;
 
   constructor(
     private dialog: MatDialog, private userService: UserService,
-    private authService: AuthService, private snackBar: MatSnackBar
+    private authService: AuthService, private snackBar: MatSnackBar, private store: Store<UsuarioState>
   ) {
+    this.store.dispatch(cargarUsuarioState());
   }
 
   ngOnInit() {
@@ -29,9 +40,10 @@ export class ListaUsuariosComponent implements OnInit {
       this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
     }
 
-    this.userService.obtenerUsuario().subscribe(data=> {
+    this.cargando$ = this.store.select(selectCargandoUsuarios);
+    this.store.select(selectUsuariosCargados).subscribe(data=> {
       this.usuarios = data;
-      this.dataSource = new MatTableDataSource<User>(this.usuarios);
+      this.dataSource = new MatTableDataSource<User>(data);
     });
   }
 
@@ -58,41 +70,17 @@ export class ListaUsuariosComponent implements OnInit {
   }
 
   guardarUsuario(usuario: User){
-    let component_message = `El usuario ha sido creado correctamente`;
     if(usuario.id){
-      const findUser = this.usuarios.find(element=>element.id===usuario.id)
-      if(findUser){
-        this.userService.editarUsuario(usuario).subscribe(data=> {
-          findUser.username = usuario.username;
-          findUser.password = usuario.password;
-          findUser.email = usuario.email;
-          findUser.direccion = usuario.direccion;
-          findUser.telefono = usuario.telefono;
-          findUser.isAdmin = usuario.isAdmin;
-          this.dataSource = new MatTableDataSource<User>(this.usuarios);
-        });
-        component_message = `El usuario ha sido modificado correctamente`;
-      }
+      this.store.dispatch(editarUsuarioState({usuario: usuario}));
     }else{
-      this.userService.agregarUsuario(usuario).subscribe(data=> {
-        this.usuarios.push(data);
-        this.dataSource = new MatTableDataSource<User>(this.usuarios);
-      });
+      this.store.dispatch(agregarUsuarioState({usuario: usuario}));
     }
-
-    this.snackBar.open(component_message, `Aceptar`, {
-      duration: 4000, verticalPosition: 'top'
-    });
   }
 
   eliminarUsuario(usuario: User){
-    this.userService.eliminarUsuario(usuario).subscribe(data=> {
-      const findUsuario = this.usuarios.findIndex(element=>element.id===usuario.id)
-      this.usuarios.splice(findUsuario, 1);
-      this.dataSource = new MatTableDataSource<User>(this.usuarios);
-      this.snackBar.open(`El usuario ha sido eliminado`, `Aceptar`, {
-        duration: 4000, verticalPosition: 'top'
-      });
+    this.store.dispatch(eliminarUsuarioState({usuario: usuario}));
+    this.snackBar.open(`El usuario ha sido eliminado`, `Aceptar`, {
+      duration: 4000, verticalPosition: 'top'
     });
   }
 }

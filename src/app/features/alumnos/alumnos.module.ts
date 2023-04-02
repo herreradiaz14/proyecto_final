@@ -6,6 +6,10 @@ import { AlumnosRoutingModule } from './alumnos-routing.module';
 import { CoreModule } from "../../core/core.module";
 import { SharedModule } from "../../shared/shared.module";
 import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { AlumnoStateEffects } from './state/alumno-state.effects';
+import { StoreModule } from "@ngrx/store";
+import { alumnoStateFeatureKey, reducer } from "./state/alumno-state.reducer";
 
 
 @NgModule({
@@ -18,7 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
     AlumnosRoutingModule,
     CoreModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forFeature(alumnoStateFeatureKey, reducer),
+    EffectsModule.forFeature([AlumnoStateEffects])
   ],
   exports: [
     ListaAlumnosComponent

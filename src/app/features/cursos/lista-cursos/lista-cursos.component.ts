@@ -6,7 +6,13 @@ import { AbmCursosComponent } from "../abm-cursos/abm-cursos.component";
 import { CursoService } from 'src/app/services/cursos.service.service';
 import { User } from "../../../shared/models/user";
 import { AuthService } from "../../../services/auth.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { CursoState } from "../state/curso-state.reducer";
+import { Store } from '@ngrx/store';
+import { agregarCursoState, cargarCursoState, editarCursoState, eliminarCursoState } from "../state/curso-state.actions";
+import { Observable } from "rxjs";
+import { selectCargandoCursos, selectCursosCargados } from "../state/curso-state.selectors";
+
 @Component({
   selector: 'app-lista-cursos',
   templateUrl: './lista-cursos.component.html',
@@ -17,11 +23,14 @@ export class ListaCursosComponent implements OnInit{
   dataSource: MatTableDataSource<Curso> = new MatTableDataSource<Curso>([]);
   columnas: string[] = ['nombre', 'profesor', 'duracionHoras', 'cantidadClases', 'acciones'];
   userLoggued?: User;
+  cargando$!: Observable<Boolean>;
 
   constructor(
     private dialog: MatDialog, private cursoService: CursoService,
-    private authService: AuthService, private snackBar: MatSnackBar
+    private authService: AuthService, private snackBar: MatSnackBar,
+    private store: Store<CursoState>
   ) {
+    this.store.dispatch(cargarCursoState());
   }
 
   ngOnInit() {
@@ -29,9 +38,10 @@ export class ListaCursosComponent implements OnInit{
       this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
     }
 
-    this.cursoService.obtenerCursos().subscribe(data=> {
+    this.cargando$ = this.store.select(selectCargandoCursos);
+    this.store.select(selectCursosCargados).subscribe(data =>{
       this.cursos = data;
-      this.dataSource = new MatTableDataSource<Curso>(this.cursos);
+      this.dataSource = new MatTableDataSource<Curso>(data);
     });
   }
 
@@ -61,39 +71,17 @@ export class ListaCursosComponent implements OnInit{
   }
 
   guardarCurso(curso: Curso){
-    let component_message = `El curso ha sido creado correctamente`;
     if(curso.id){
-      const findCurso = this.cursos.find(element=>element.id===curso.id)
-      if(findCurso){
-        this.cursoService.editarCurso(curso).subscribe(data=> {
-          findCurso.nombre = curso.nombre;
-          findCurso.profesor = curso.profesor;
-          findCurso.duracionHoras = curso.duracionHoras;
-          findCurso.cantidadClases = curso.cantidadClases;
-          this.dataSource = new MatTableDataSource<Curso>(this.cursos);
-        });
-        component_message = `El curso ha sido modificado correctamente`;
-      }
+      this.store.dispatch(editarCursoState({curso: curso}));
     }else{
-      this.cursoService.agregarCurso(curso).subscribe(data=> {
-        this.cursos.push(data);
-        this.dataSource = new MatTableDataSource<Curso>(this.cursos);
-      });
+      this.store.dispatch(agregarCursoState({ curso: curso }));
     }
-
-    this.snackBar.open(component_message, `Aceptar`, {
-      duration: 4000, verticalPosition: 'top'
-    });
   }
 
   eliminarCurso(curso: Curso){
-    this.cursoService.eliminarCurso(curso).subscribe(data=> {
-      const findCurso = this.cursos.findIndex(element=>element.id===curso.id)
-      this.cursos.splice(findCurso, 1);
-      this.dataSource = new MatTableDataSource<Curso>(this.cursos);
-      this.snackBar.open(`El curso ha sido eliminado`, `Aceptar`, {
-        duration: 4000, verticalPosition: 'top'
-      });
+    this.store.dispatch(eliminarCursoState({ curso }));
+    this.snackBar.open(`El curso ha sido eliminado`, `Aceptar`, {
+      duration: 4000, verticalPosition: 'top'
     });
   }
 

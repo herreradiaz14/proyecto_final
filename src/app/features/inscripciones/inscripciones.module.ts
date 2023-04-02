@@ -6,6 +6,10 @@ import { AbmInscripcionesComponent } from "./abm-inscripciones/abm-inscripciones
 import { CoreModule } from "../../core/core.module";
 import { SharedModule } from "../../shared/shared.module";
 import { HttpClientModule } from "@angular/common/http";
+import { EffectsModule } from '@ngrx/effects';
+import { InscripcionStateEffects } from './state/inscripcion-state.effects';
+import {StoreModule} from "@ngrx/store";
+import { inscripcionStateFeatureKey, reducer } from "./state/inscripcion-state.reducer";
 
 
 @NgModule({
@@ -18,7 +22,9 @@ import { HttpClientModule } from "@angular/common/http";
     InscripcionesRoutingModule,
     CoreModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forFeature(inscripcionStateFeatureKey, reducer),
+    EffectsModule.forFeature([InscripcionStateEffects])
   ],
   exports: [
     ListaInscripcionesComponent

@@ -8,6 +8,10 @@ import { CoreModule } from "../../core/core.module";
 import { SharedModule } from "../../shared/shared.module";
 import { MenuComponent } from 'src/app/components/menu/menu.component';
 import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { CursoStateEffects } from './state/curso-state.effects';
+import { StoreModule } from "@ngrx/store";
+import { cursoStateFeatureKey, reducer } from "./state/curso-state.reducer";
 
 
 @NgModule({
@@ -21,7 +25,9 @@ import { HttpClientModule } from '@angular/common/http';
     CursosRoutingModule,
     CoreModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forFeature(cursoStateFeatureKey, reducer),
+    EffectsModule.forFeature([CursoStateEffects])
   ],
   exports: [
     ListaCursosComponent,

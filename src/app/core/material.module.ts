@@ -12,10 +12,11 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTabsModule } from "@angular/material/tabs";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {MatSelectModule} from "@angular/material/select";
-import {MatDatepicker, MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 
 
@@ -39,6 +40,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatToolbarModule,
@@ -58,6 +60,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialModule { }

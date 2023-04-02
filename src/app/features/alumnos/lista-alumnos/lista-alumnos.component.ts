@@ -7,6 +7,16 @@ import { AlumnoService } from 'src/app/services/alumnos.service.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/shared/models/user';
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Observable } from "rxjs";
+import { Store } from "@ngrx/store";
+import { CursoState } from "../../cursos/state/curso-state.reducer";
+import {
+  agregarAlumnoState,
+  cargarAlumnoState,
+  editarAlumnoState,
+  eliminarAlumnoState
+} from "../state/alumno-state.actions";
+import { selectAlumnosCargados, selectCargandoAlumnos } from "../state/alumno-state.selectors";
 
 @Component({
   selector: 'app-lista-alumnos',
@@ -18,20 +28,23 @@ export class ListaAlumnosComponent implements OnInit{
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource<Alumno>([]);
   columnas: string[] = ['nombre', 'sexo', 'perfil', 'acciones'];
   userLoggued?: User;
+  cargando$!: Observable<Boolean>;
 
   constructor(
     private dialog: MatDialog, private alumnoService: AlumnoService, private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar, private store: Store<CursoState>
   ) {
+    this.store.dispatch(cargarAlumnoState());
   }
 
   ngOnInit() {
     if (this.authService.isLoggedIn()){
       this.userLoggued = JSON.parse((JSON.parse(JSON.stringify(localStorage.getItem('ACCESS_TOKEN')))));
     }
-    this.alumnoService.obtenerAlumnos().subscribe(data=> {
+    this.cargando$ = this.store.select(selectCargandoAlumnos);
+    this.store.select(selectAlumnosCargados).subscribe(data=> {
       this.alumnos = data;
-      this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
+      this.dataSource = new MatTableDataSource<Alumno>(data);
     });
   }
 
@@ -59,49 +72,24 @@ export class ListaAlumnosComponent implements OnInit{
   }
 
   guardarAlumno(alumno: Alumno){
-    let component_message = `El alumno ha sido creado correctamente`;
     if(alumno.id){
-      const findAlumno = this.alumnos.find(element=>element.id===alumno.id)
-      if(findAlumno){
-        this.alumnoService.editarAlumno(alumno).subscribe(data=> {
-          findAlumno.nombre = alumno.nombre;
-          findAlumno.apellido = alumno.apellido;
-          findAlumno.perfil = alumno.perfil;
-          findAlumno.sexo = alumno.sexo;
-
-          this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
-        });
-        component_message = `El alumno ha sido modificado correctamente`;
-      }
+      this.store.dispatch(editarAlumnoState({alumno: alumno}));
     }else{
-      this.alumnoService.agregarAlumno(alumno).subscribe(data=> {
-        this.alumnos.push(data);
-        this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
-      });
-
+      this.store.dispatch(agregarAlumnoState({alumno: alumno}));
     }
-    this.snackBar.open(component_message, `Aceptar`, {
-      duration: 4000, verticalPosition: 'top'
-    });
   }
 
   eliminarAlumno(alumno: Alumno){
-    this.alumnoService.eliminarAlumno(alumno).subscribe(data=> {
-      const findAlumno = this.alumnos.findIndex(element=>element.id===alumno.id)
-      this.alumnos.splice(findAlumno, 1);
-      this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
-      this.snackBar.open(`El alumno ha sido eliminado`, `Aceptar`, {
-        duration: 4000, verticalPosition: 'top'
-      });
+    this.store.dispatch(eliminarAlumnoState({alumno: alumno}));
+    this.snackBar.open(`El alumno ha sido eliminado`, `Aceptar`, {
+      duration: 4000, verticalPosition: 'top'
     });
   }
-
 
   verDeatalleAlumno(alumno: Alumno) {
     const dialogRef = this.dialog.open(AbmAlumnosComponent, {
       data: {title: 'Detalle Alumno', 'alumno': alumno, isDetail: true}
     });
-
 
     dialogRef.afterClosed().subscribe(result => {
       this.alumnoService.obtenerAlumnos().subscribe(data=> {

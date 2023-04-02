@@ -6,6 +6,10 @@ import { UsuariosRoutingModule } from "./usuarios-routing.module";
 import { CoreModule } from "../../core/core.module";
 import { SharedModule } from "../../shared/shared.module";
 import { HttpClientModule } from "@angular/common/http";
+import { EffectsModule } from '@ngrx/effects';
+import { UsuarioStateEffects } from './state/usuario-state.effects';
+import { StoreModule} from "@ngrx/store";
+import { usuarioStateFeatureKey, reducer } from "./state/usuario-state.reducer";
 
 
 @NgModule({
@@ -18,7 +22,9 @@ import { HttpClientModule } from "@angular/common/http";
     UsuariosRoutingModule,
     CoreModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forFeature(usuarioStateFeatureKey, reducer),
+    EffectsModule.forFeature([UsuarioStateEffects])
   ],
   exports: [
     ListaUsuariosComponent
